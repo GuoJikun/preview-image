@@ -24,7 +24,11 @@ Vue.use(owlPreviewImage)
 <owl-preview-image v-model="visiable" :src="imageSrc" width="90vw" height="90vh" z-index="9000"></owl-preview-image>
 ```
 
-## [Demo 演示地址](https://github.com/guojikun/preview-image)
+## 演示地址
+
+[GITHUB](https://guojikun.github.io/preview-image/)
+
+[码云](https://guojikun_admin.gitee.io/preview-image/)
 
 ## API
 
