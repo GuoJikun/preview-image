@@ -5,7 +5,7 @@
     "main": "lib/owlPreviewImage.umd.js",
     "scripts": {
         "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build",
+        "build": "vue-cli-service build --dest docs",
         "build:lib": "vue-cli-service build --dest lib --target lib --name owlPreviewImage ./src/components/preview-image/index.js",
         "lint": "vue-cli-service lint"
     },
