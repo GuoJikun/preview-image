@@ -198,8 +198,22 @@ export default {
             immediate: true,
         },
         src: {
-            handler(val) {
-                this.uri = val;
+            handler(val, oldVal) {
+                if (val !== oldVal) {
+                    this.uri = val;
+                    this.angle = 0;
+                    this.scale = 1;
+                    this.x = 0;
+                    this.y = 0;
+                    this.startLocation = {
+                        x: 0,
+                        y: 0,
+                    };
+                    this.cacheX = 0;
+                    this.cacheY = 0;
+                } else {
+                    this.uri = val;
+                }
             },
             immediate: true,
         },
