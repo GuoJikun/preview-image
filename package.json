@@ -2,7 +2,9 @@
     "name": "owl-preview-image",
     "version": "0.1.4",
     "private": false,
+    "description": "vue组件；图片预览组件；图片预览插件",
     "main": "lib/owlPreviewImage.umd.js",
+    "author": "guojikun",
     "keywords": [
         "VUE",
         "vue",
@@ -13,6 +15,11 @@
         "previewImage",
         "preview-image",
         "owl"
+    ],
+    "files": [
+        "lib",
+        "LICENSE",
+        "README.md"
     ],
     "scripts": {
         "serve": "vue-cli-service serve",
