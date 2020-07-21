@@ -1,8 +1,19 @@
 {
     "name": "owl-preview-image",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "private": false,
     "main": "lib/owlPreviewImage.umd.js",
+    "keywords": [
+        "VUE",
+        "vue",
+        "component",
+        "preview",
+        "image",
+        "img",
+        "previewImage",
+        "preview-image",
+        "owl"
+    ],
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build --dest docs",
