@@ -260,6 +260,7 @@ export default {
         position: relative;
         user-select: none;
         margin: 0 auto;
+        display: block;
         &:active {
             cursor: pointer;
         }
