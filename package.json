@@ -1,6 +1,6 @@
 {
     "name": "owl-preview-image",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "private": false,
     "description": "vue组件；图片预览组件；图片预览插件",
     "main": "lib/owlPreviewImage.umd.js",
