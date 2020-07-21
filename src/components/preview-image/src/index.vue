@@ -199,6 +199,7 @@ export default {
             scroll.style.width = "100px";
             scroll.style.height = "50px";
             scroll.style.overflow = "scroll";
+            scroll.style.marginLeft = "-100000px";
             document.body.appendChild(scroll);
             const scrollInWidth = scrollIn.offsetWidth;
             const scrollWidth = scroll.offsetWidth;
