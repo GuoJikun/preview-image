@@ -189,11 +189,36 @@ export default {
             s = s / 2 + val.replace(/\d+/, "");
             return `-${s}`;
         },
+        /**
+         * 获取滚动条的宽度
+         */
+        getScrollWidth() {
+            const scroll = document.createElement("div");
+            const scrollIn = document.createElement("div");
+            scroll.appendChild(scrollIn);
+            scroll.style.width = "100px";
+            scroll.style.height = "50px";
+            scroll.style.overflow = "scroll";
+            document.body.appendChild(scroll);
+            const scrollInWidth = scrollIn.offsetWidth;
+            const scrollWidth = scroll.offsetWidth;
+            const tmp = setTimeout(() => {
+                document.body.removeChild(scroll);
+                clearTimeout(tmp);
+            }, 10);
+            return scrollWidth - scrollInWidth;
+        },
     },
     watch: {
         visiable: {
             handler(val) {
                 this.flag = val;
+                if (val) {
+                    document.body.style.paddingRight = this.getScrollWidth() + "px";
+                    document.body.style.overflow = "hidden";
+                } else {
+                    document.body.setAttribute("style", "");
+                }
             },
             immediate: true,
         },
@@ -234,6 +259,7 @@ export default {
     &-image {
         position: relative;
         user-select: none;
+        margin: 0 auto;
         &:active {
             cursor: pointer;
         }
