@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === "production" ? "/preview-image/" : "/",
+    publicPath: process.env.NODE_ENV === "production" ? "/owl-ui/" : "/",
     configureWebpack: {
         output: {
             libraryExport: "default",

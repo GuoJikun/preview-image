@@ -210,6 +210,9 @@ export default {
             return scrollWidth - scrollInWidth;
         },
     },
+    beforeDestroy() {
+        document.body.removeChild(this.$el);
+    },
     watch: {
         visiable: {
             handler(val) {

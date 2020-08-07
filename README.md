@@ -39,3 +39,9 @@ Vue.use(owlPreviewImage)
 | width            | 预览窗口的宽度               | String   | 100vw  |
 | height           | 预览窗口的高度               | String   | 100vh  |
 | z-index          | 预览窗口的层级-css 的 zIndex | Number   | 9000   |
+
+## 更新日志
+
+### v0.1.7
+
+-   fix: 修复当路由切换时，由组件添加的元素为销毁的 bug

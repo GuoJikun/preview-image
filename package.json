@@ -1,6 +1,6 @@
 {
     "name": "owl-preview-image",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "private": false,
     "description": "vue组件；图片预览组件；图片预览插件",
     "main": "lib/owlPreviewImage.umd.js",
@@ -23,13 +23,14 @@
     ],
     "scripts": {
         "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build --dest docs",
+        "build": "vue-cli-service build --dest docs --modern",
         "build:lib": "vue-cli-service build --dest lib --target lib --name owlPreviewImage ./src/components/preview-image/index.js",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
         "core-js": "^3.6.5",
-        "vue": "^2.6.11"
+        "vue": "^2.6.11",
+        "vue-router": "^3.4.1"
     },
     "devDependencies": {
         "@vue/cli-plugin-babel": "~4.4.0",
