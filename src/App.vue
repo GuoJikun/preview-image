@@ -5,7 +5,7 @@
                 <h2>基础用法</h2>
                 <div class="preview-item-ctx">
                     <button class="button" @click="show">点击查看预览界面</button>
-                    <owl-preview-image v-model="visiable" :src="[a, b]"></owl-preview-image>
+                    <fox-preview-image v-model="visiable" :src="[a, b]"></fox-preview-image>
                 </div>
             </div>
             <!-- <div class="preview-item">
@@ -22,9 +22,9 @@
 <script>
 import jpg from "@/assets/a.jpg";
 import logo from "@/assets/logo.png";
-import OwlPreviewImage from "@/components/preview-image";
+import FoxPreviewImage from "@/components/preview-image";
 export default {
-    components: { OwlPreviewImage },
+    components: { FoxPreviewImage },
     data() {
         return {
             a: jpg,
