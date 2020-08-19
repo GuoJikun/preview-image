@@ -33,5 +33,5 @@ jobs:
               run: yarn run build
             - name: 部署文档到gh-pages
               env:
-                  ACCESS_TOKEN: ${{ secrets.DOCS }}
+                  ACCESS_TOKEN: ${{ secrets.git_token }}
               run: cd docs && git init && git add -A && git commit -m "deploy" && git push -f https://$ACCESS_TOKEN@github.com/guojikun/preview-image.git master:gh-pages
