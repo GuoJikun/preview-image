@@ -1,12 +1,11 @@
 {
-    "name": "owl-preview-image",
-    "version": "0.2.1",
+    "name": "fox-preview-image",
+    "version": "1.0.0",
     "private": false,
     "description": "vue组件；图片预览组件；图片预览插件",
-    "main": "lib/owlPreviewImage.umd.js",
-    "author": "guojikun",
+    "main": "lib/foxPreviewImage.umd.js",
+    "author": "GuoJikun",
     "keywords": [
-        "VUE",
         "vue",
         "component",
         "preview",
@@ -14,7 +13,11 @@
         "img",
         "previewImage",
         "preview-image",
-        "owl"
+        "imagePreview",
+        "image-review",
+        "fox-image-review",
+        "foxPreviewImage",
+        "fox"
     ],
     "files": [
         "lib",
@@ -24,13 +27,12 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build --dest docs --modern",
-        "build:lib": "vue-cli-service build --dest lib --target lib --name owlPreviewImage ./src/components/preview-image/index.js",
+        "build:lib": "vue-cli-service build --dest lib --target lib --name foxPreviewImage ./src/components/preview-image/index.js",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
         "core-js": "^3.6.5",
-        "vue": "^2.6.11",
-        "vue-router": "^3.4.1"
+        "vue": "^2.6.11"
     },
     "devDependencies": {
         "@vue/cli-plugin-babel": "~4.4.0",
