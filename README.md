@@ -45,3 +45,7 @@ Vue.use(owlPreviewImage)
 ### v0.1.7
 
 -   fix: 修复当路由切换时，由组件添加的元素为销毁的 bug
+
+### v0.2.0
+
+-   feat: 预览图片默认设置在中央位置
