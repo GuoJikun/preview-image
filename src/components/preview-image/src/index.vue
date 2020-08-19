@@ -10,7 +10,7 @@
             marginTop: parseMg(height),
         }"
     >
-        <div class="owl-preview-canvas">
+        <div class="owl-preview-canvas" :style="{ width: width, height: height }">
             <template v-for="(item, i) in uri">
                 <img
                     :key="i"
@@ -34,7 +34,7 @@
             </svg>
         </div>
         <!-- 左右切换按钮 -->
-        <div class="owl-preview-operate" :style="{ 'z-index': zIndex + 1 }">
+        <div class="owl-preview-operate" :style="{ 'z-index': zIndex + 1 }" v-if="uri && uri.length > 1">
             <div class="owl-preview-operate-item owl-preview-operate-item-left" @click="prev">
                 <svg viewBox="0 0 1024 1024" aria-hidden="true" class="font-svg owl-preview-operate-icon owl-preview-operate-icon-left">
                     <use href="#preview-image-arrow-right"></use>
@@ -302,7 +302,6 @@ export default {
         src: {
             handler(val) {
                 const type = types(val);
-                console.log(type);
                 this.active = 0;
                 if (type === "string") {
                     this.angle = 0;
@@ -346,7 +345,7 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    background-color: rgba($color: #000000, $alpha: 0.5);
+    background-color: rgba($color: #000000, $alpha: 0.4);
     overflow: hidden;
     border-radius: 4px;
     &-canvas {

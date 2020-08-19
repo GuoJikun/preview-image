@@ -8,13 +8,13 @@
                     <fox-preview-image v-model="visiable" :src="[a, b]"></fox-preview-image>
                 </div>
             </div>
-            <!-- <div class="preview-item">
-                <h2>基础用法--设置宽高</h2>
+            <div class="preview-item">
+                <h2>基础用法-只有一张图片时不显示左右的切换按钮</h2>
                 <div class="preview-item-ctx">
-                    <button class="button" @click="show1">点击查看预览界面</button>
-                    <owl-preview-image v-model="visiable1" :src="a" width="90vw" height="90vh"></owl-preview-image>
+                    <button class="button" @click="show1">点击查看预览界面-没有切换按钮</button>
+                    <fox-preview-image v-model="visiable1" :src="[a]"></fox-preview-image>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>
