@@ -359,7 +359,6 @@ export default {
     &-image {
         user-select: none;
         display: block;
-        transition: transform 0.3s ease 0s;
         &:active {
             cursor: pointer;
         }

@@ -56,6 +56,12 @@ Vue.use(foxPreviewImage)
 
 ### v1.0.0
 
--   feat: 旋转
--   feat: 放大，缩小（0.5-2）
--   feat: 多张图片可以传数组 eg：['http://xxxx.com/a.png','http://xxxx.com/b.png']
+-   feat:
+    -   旋转
+    -   放大，缩小（0.5-2）
+    -   多张图片可以传数组 eg：['http://xxxx.com/a.png','http://xxxx.com/b.png']
+
+### v1.0.1
+
+-   fix:
+    -   修复拖拽时图片未完全跟随鼠标的 bug
