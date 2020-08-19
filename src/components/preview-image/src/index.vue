@@ -10,21 +10,41 @@
             marginTop: parseMg(height),
         }"
     >
-        <img
-            class="owl-preview-image"
-            :style="{ transform: `rotate(${angle}deg) scale(${scale})`, left: `${x}px`, top: `${y}px` }"
-            :src="uri"
-            alt=""
-            draggable="false"
-            ref="ref"
-            @mousemove="move"
-            @mouseup="mouseup"
-            @mousedown="mousedown"
-        />
+        <div class="owl-preview-canvas">
+            <template v-for="(item, i) in uri">
+                <img
+                    :key="i"
+                    v-if="active === i"
+                    class="owl-preview-image"
+                    :style="{ transform: `rotate(${angle}deg) scale(${scale})`, marginLeft: `${x}px`, marginTop: `${y}px` }"
+                    :src="item"
+                    alt=""
+                    draggable="false"
+                    ref="ref"
+                    @mousemove="handleMouseMove"
+                    @mouseup="mouseup"
+                    @mousedown="mousedown"
+                />
+            </template>
+        </div>
+        <!-- 关闭按钮 -->
         <div class="owl-preview-close" :style="{ 'z-index': zIndex + 1 }" @click="close">
             <svg viewBox="0 0 1024 1024" aria-hidden="true" class="font-svg">
                 <use href="#preview-image-close"></use>
             </svg>
+        </div>
+        <!-- 左右切换按钮 -->
+        <div class="owl-preview-operate" :style="{ 'z-index': zIndex + 1 }">
+            <div class="owl-preview-operate-item owl-preview-operate-item-left" @click="prev">
+                <svg viewBox="0 0 1024 1024" aria-hidden="true" class="font-svg owl-preview-operate-icon owl-preview-operate-icon-left">
+                    <use href="#preview-image-arrow-right"></use>
+                </svg>
+            </div>
+            <div class="owl-preview-operate-item" @click="next">
+                <svg viewBox="0 0 1024 1024" aria-hidden="true" class="font-svg owl-preview-operate-icon">
+                    <use href="#preview-image-arrow-right"></use>
+                </svg>
+            </div>
         </div>
 
         <div class="owl-preview-utils" :style="{ 'z-index': zIndex + 1 }">
@@ -71,11 +91,18 @@
                     d="M924.39230934 564.14465897a24.3373191 24.3373191 0 0 0-28.37627972 19.78054519A389.08642251 389.08642251 0 0 1 512.2631052 904.91891318c-214.94513422 0-389.81136475-174.86622932-389.81136476-389.81136353a389.70780089 389.70780089 0 0 1 713.03168-217.94846342c12.63469394 18.69313305 23.76772267 38.68080355 32.98483557 59.3934151 5.48884268 12.32400475 19.88410785 17.91641008 32.25989333 12.32400475a24.02662992 24.02662992 0 0 0 12.22044088-12.42756741 24.07841185 24.07841185 0 0 0 3.5211449-11.90975169V200.37940505a24.49266369 24.49266369 0 0 0-48.93354666 0v58.46134754a437.86462459 437.86462459 0 0 0-719.14190105 11.13302994A436.51830518 436.51830518 0 0 0 73.56997572 515.10754965c0 241.92331261 196.82159882 438.69312948 438.69312948 438.69312947a437.96818845 437.96818845 0 0 0 431.90974813-361.27974164 24.49266369 24.49266369 0 0 0-19.78054399-28.37627851"
                 ></path>
             </symbol>
+            <symbol id="preview-image-arrow-right" viewBox="0 0 1024 1024">
+                <path
+                    d="M325.3196818 850.33221435c-9.66522217-9.66522217-10.23376465-24.62036133-1.58203125-33.81591797l290.82183838-290.84655761c12.48321533-11.84051513 12.43377685-14.93041992 1e-8-27.36419678L323.73765055 207.50842285C315.06119792 198.31286621 315.65445964 183.35772705 325.3196818 173.69250489c9.83825684-9.83825684 25.18890381-10.38208008 34.33502198-1.26068116l323.03100586 323.03100586c3.97979737 3.97979737 5.75958252 9.14611817 6.08093262 14.51019288l-1e-8 4.05395507c-0.34606934 5.36407471-2.1258545 10.53039551-6.08093261 14.51019287L359.65470378 851.59289551C350.50858561 860.6895752 335.1332194 860.14575195 325.3196818 850.33221435z"
+                ></path>
+            </symbol>
         </svg>
     </div>
 </template>
 
 <script>
+import types from "@/utils/types";
+import { debounce } from "@/utils/utils";
 export default {
     name: "PreviewImage",
     model: {
@@ -87,7 +114,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        src: String,
+        src: [String, Array],
         zIndex: {
             type: [Number, String],
             default: 9000,
@@ -104,7 +131,7 @@ export default {
     data() {
         return {
             flag: false,
-            uri: "",
+            uri: [],
             status: "0",
             angle: 0,
             scale: 1,
@@ -116,6 +143,8 @@ export default {
             },
             cacheX: 0,
             cacheY: 0,
+            active: 0,
+            handleMouseMove: debounce(this.move, 2),
         };
     },
     mounted() {
@@ -131,13 +160,17 @@ export default {
             this.flag = false;
             this.$emit("change", this.flag);
         },
+
         move(e) {
             if (this.status === 1) {
                 const { x, y } = e;
+                // 鼠标的移动距离
                 const mvX = x - this.statusLocation.x;
                 const mvY = y - this.statusLocation.y;
-                this.x = this.x + mvX - this.cacheX;
-                this.y = this.y + mvY - this.cacheY;
+                // this.x = this.x + mvX - this.cacheX;
+                // this.y = this.y + mvY - this.cacheY;
+                this.x = mvX + this.x - this.cacheX;
+                this.y = mvY + this.y - this.cacheY;
                 this.cacheX = mvX;
                 this.cacheY = mvY;
             }
@@ -209,6 +242,44 @@ export default {
             }, 10);
             return scrollWidth - scrollInWidth;
         },
+        prev() {
+            const len = this.uri.length || 0;
+            if (this.active > 0) {
+                this.active--;
+            } else {
+                this.active = len - 1;
+            }
+            this.angle = 0;
+            this.scale = 1;
+            this.x = 0;
+            this.y = 0;
+            this.startLocation = {
+                x: 0,
+                y: 0,
+            };
+            this.cacheX = 0;
+            this.cacheY = 0;
+            console.log(this.active, "prev");
+        },
+        next() {
+            const len = this.uri.length || 0;
+            if (this.active < len - 1) {
+                this.active++;
+            } else {
+                this.active = 0;
+            }
+            this.angle = 0;
+            this.scale = 1;
+            this.x = 0;
+            this.y = 0;
+            this.startLocation = {
+                x: 0,
+                y: 0,
+            };
+            this.cacheX = 0;
+            this.cacheY = 0;
+            console.log(this.active, "next");
+        },
     },
     beforeDestroy() {
         document.body.removeChild(this.$el);
@@ -227,8 +298,24 @@ export default {
             immediate: true,
         },
         src: {
-            handler(val, oldVal) {
-                if (val !== oldVal) {
+            handler(val) {
+                const type = types(val);
+                console.log(type);
+                this.active = 0;
+                if (type === "string") {
+                    this.angle = 0;
+                    this.scale = 1;
+                    this.x = 0;
+                    this.y = 0;
+                    this.startLocation = {
+                        x: 0,
+                        y: 0,
+                    };
+                    this.cacheX = 0;
+                    this.cacheY = 0;
+
+                    this.uri = [val];
+                } else if (type === "array") {
                     this.uri = val;
                     this.angle = 0;
                     this.scale = 1;
@@ -240,10 +327,10 @@ export default {
                     };
                     this.cacheX = 0;
                     this.cacheY = 0;
-                } else {
                     this.uri = val;
                 }
             },
+            deep: true,
             immediate: true,
         },
     },
@@ -260,11 +347,17 @@ export default {
     background-color: rgba($color: #000000, $alpha: 0.5);
     overflow: hidden;
     border-radius: 4px;
+    &-canvas {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     &-image {
-        position: relative;
         user-select: none;
-        margin: 0 auto;
         display: block;
+        transition: transform 0.3s ease 0s;
         &:active {
             cursor: pointer;
         }
@@ -275,7 +368,7 @@ export default {
         right: 20px;
         user-select: none;
         cursor: pointer;
-        background-color: rgba($color: #000000, $alpha: 0.6);
+        background-color: #606266;
         border-radius: 50%;
         font-size: 26px;
         display: flex;
@@ -286,6 +379,33 @@ export default {
         justify-content: center;
         color: white;
     }
+    &-operate {
+        &-item {
+            background-color: #606266;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            right: 5vw;
+            &-left {
+                left: 5vw;
+            }
+        }
+        & &-icon {
+            font-size: 24px;
+            color: #ffffff;
+            &-left {
+                transform: rotate(180deg);
+            }
+        }
+    }
     & &-utils {
         position: absolute;
         bottom: 5%;
@@ -293,7 +413,7 @@ export default {
         transform: translateX(-98px);
         border-radius: 30px;
         z-index: 20;
-        background-color: rgba($color: #000000, $alpha: 0.8);
+        background-color: #606266;
         display: flex;
         padding: 8px 10px;
         &-item {

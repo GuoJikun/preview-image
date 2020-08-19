@@ -5,7 +5,7 @@
                 <h2>基础用法</h2>
                 <div class="preview-item-ctx">
                     <button class="button" @click="show">点击查看预览界面</button>
-                    <owl-preview-image v-model="visiable" :src="a"></owl-preview-image>
+                    <owl-preview-image v-model="visiable" :src="[a, b]"></owl-preview-image>
                 </div>
             </div>
             <!-- <div class="preview-item">

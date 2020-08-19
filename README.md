@@ -5,23 +5,23 @@ Vue 图片预览组件
 ## 安装
 
 ```
-npm i owl-preview-image
+npm i fox-preview-image
 # or
-yarn add owl-preview-image
+yarn add fox-preview-image
 ```
 
 ## 引入组件
 
 ```
-import owlPreviewImage from "owl-preview-image";
+import foxPreviewImage from "fox-preview-image";
 
-Vue.use(owlPreviewImage)
+Vue.use(foxPreviewImage)
 ```
 
 ## 基础使用
 
 ```
-<owl-preview-image v-model="visiable" :src="imageSrc" width="90vw" height="90vh" z-index="9000"></owl-preview-image>
+<fox-preview-image v-model="visiable" :src="imageSrc" width="90vw" height="90vh" z-index="9000"></fox-preview-image>
 ```
 
 ## 演示地址
@@ -32,16 +32,16 @@ Vue.use(owlPreviewImage)
 
 ## API
 
-| 属性             | 说明                         | 参数类型 | 默认值 |
-| ---------------- | :--------------------------- | :------- | :----- |
-| src              | 预览图片的地址               | String   | -      |
-| visiable/v-model | 是否显示预览窗口             | Boolean  | false  |
-| width            | 预览窗口的宽度               | String   | 100vw  |
-| height           | 预览窗口的高度               | String   | 100vh  |
-| z-index          | 预览窗口的层级-css 的 zIndex | Number   | 9000   |
+| 属性             | 说明                         | 参数类型     | 默认值 |
+| ---------------- | :--------------------------- | :----------- | :----- |
+| src              | 预览图片的地址               | String/Array | -      |
+| visiable/v-model | 是否显示预览窗口             | Boolean      | false  |
+| z-index          | 预览窗口的层级-css 的 zIndex | Number       | 9000   |
 
 ## 更新日志
 
-### v0.1.7
+### v1.0.0
 
--   fix: 修复当路由切换时，由组件添加的元素为销毁的 bug
+-   feat: 旋转
+-   feat: 放大，缩小（0.5-2）
+-   feat: 多张图片可以传数组 eg：['http://xxxx.com/a.png','http://xxxx.com/b.png']
