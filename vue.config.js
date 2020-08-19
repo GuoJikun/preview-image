@@ -1,7 +1,7 @@
 const mode = process.env.NODE_ENV;
 
 module.exports = {
-    publicPath: mode === "production" ? "/owl-ui/" : "/",
+    publicPath: mode === "production" ? "/preview-image/" : "/",
     configureWebpack: config => {
         config.resolve.alias.vue$ = "vue/dist/vue.esm.js";
         config.output.libraryExport = "default";
