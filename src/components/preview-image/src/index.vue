@@ -104,7 +104,7 @@
 import types from "@/utils/types";
 import { debounce } from "@/utils/utils";
 export default {
-    name: "PreviewImage",
+    name: "FoxPreviewImage",
     model: {
         event: "change",
         prop: "visiable",
