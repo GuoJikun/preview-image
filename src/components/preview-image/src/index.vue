@@ -10,17 +10,22 @@
             marginTop: parseMg(height),
         }"
     >
-        <img
-            class="owl-preview-image"
-            :style="{ transform: `rotate(${angle}deg) scale(${scale})`, left: `${x}px`, top: `${y}px` }"
-            :src="uri"
-            alt=""
-            draggable="false"
-            ref="ref"
-            @mousemove="move"
-            @mouseup="mouseup"
-            @mousedown="mousedown"
-        />
+        <div class="owl-preview-canvas" :style="{ width: width, height: height }">
+            <img
+                class="owl-preview-image"
+                :style="{
+                    transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)`,
+                }"
+                :src="uri"
+                alt=""
+                draggable="false"
+                ref="ref"
+                @mousemove="move"
+                @mouseup="mouseup"
+                @mousedown="mousedown"
+            />
+        </div>
+
         <div class="owl-preview-close" :style="{ 'z-index': zIndex + 1 }" @click="close">
             <svg viewBox="0 0 1024 1024" aria-hidden="true" class="font-svg">
                 <use href="#preview-image-close"></use>
@@ -148,6 +153,8 @@ export default {
             this.cacheY = 0;
         },
         mousedown(e) {
+            const s = getComputedStyle(e.target)["margin"];
+            console.log(s);
             this.status = 1;
             this.statusLocation = { x: e.x, y: e.y };
         },
@@ -260,10 +267,15 @@ export default {
     background-color: rgba($color: #000000, $alpha: 0.5);
     overflow: hidden;
     border-radius: 4px;
+    &-canvas {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     &-image {
-        position: relative;
         user-select: none;
-        margin: 0 auto;
         display: block;
         &:active {
             cursor: pointer;
