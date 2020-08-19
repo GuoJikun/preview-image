@@ -2,6 +2,20 @@
 
 Vue 图片预览组件
 
+> &nbsp;
+>
+> 现在组件已更名为 _`fox-preview-image`_
+>
+> 安装
+>
+> ```
+> npm i owl-preview-image
+> # or
+> yarn add owl-preview-image
+> ```
+>
+> &nbsp;
+
 ## 安装
 
 ```
