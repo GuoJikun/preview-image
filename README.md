@@ -2,20 +2,6 @@
 
 Vue 图片预览组件
 
-> &nbsp;
->
-> 现在组件已更名为 _`fox-preview-image`_
->
-> 安装
->
-> ```
-> npm i owl-preview-image
-> # or
-> yarn add owl-preview-image
-> ```
->
-> &nbsp;
-
 ## 安装
 
 ```
@@ -35,7 +21,7 @@ Vue.use(foxPreviewImage)
 ## 基础使用
 
 ```
-<fox-preview-image v-model="visiable" :src="imageSrc" width="90vw" height="90vh" z-index="9000"></fox-preview-image>
+<fox-preview-image v-model="visiable" :src="imageSrc" z-index="9000"></fox-preview-image>
 ```
 
 ## 演示地址
@@ -70,3 +56,8 @@ Vue.use(foxPreviewImage)
 
 -   fix:
     -   修复当预览的图片为 1 张时扔显示左右切换按钮的问题
+
+### v1.1.0
+
+-   feat：
+    -   增加缩放倍数显示

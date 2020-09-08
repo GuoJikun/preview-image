@@ -54,6 +54,7 @@
             <svg viewBox="0 0 1024 1024" aria-hidden="true" class="font-svg owl-preview-utils-item" @click="enlarge">
                 <use href="#preview-image-zoom-in"></use>
             </svg>
+            <div class="owl-preview-utils-item owl-preview-utils-scale" v-html="getCurrScale"></div>
             <svg viewBox="0 0 1024 1024" aria-hidden="true" class="font-svg owl-preview-utils-item" @click="clockwiseRotation">
                 <use href="#preview-image-refresh-left"></use>
             </svg>
@@ -286,6 +287,11 @@ export default {
     beforeDestroy() {
         document.body.removeChild(this.$el);
     },
+    computed: {
+        getCurrScale() {
+            return parseFloat(this.scale.toFixed(1));
+        },
+    },
     watch: {
         visiable: {
             handler(val) {
@@ -421,6 +427,44 @@ export default {
             margin: 0 10px;
             color: white;
             font-size: 24px;
+        }
+        &-scale {
+            font-size: 14px;
+            position: relative;
+            background-color: #606266;
+            border: 1px solid #ffffff;
+            box-sizing: border-box;
+            width: 34px;
+            border-radius: 1px;
+            line-height: 22px;
+            text-align: center;
+            cursor: unset;
+            &::before,
+            &::after {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                content: "";
+                z-index: 1;
+                border: 1px solid #606266;
+                box-sizing: border-box;
+            }
+            &::before {
+                height: 12px;
+                top: 50%;
+                margin-top: -6px;
+                width: 34px;
+                left: -1px;
+                border-width: 0 1px;
+            }
+            &::after {
+                height: 24px;
+                width: 20px;
+                top: -1px;
+                left: 50%;
+                margin-left: -10px;
+                border-width: 1px 0;
+            }
         }
     }
 }
