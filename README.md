@@ -61,3 +61,8 @@ Vue.use(foxPreviewImage)
 
 -   feat：
     -   增加缩放倍数显示
+
+### v1.1.1
+
+-   feat：
+    -   支持鼠标滚轮放大缩小

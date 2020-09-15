@@ -10,7 +10,12 @@
             marginTop: parseMg(height),
         }"
     >
-        <div class="owl-preview-canvas" :style="{ width: width, height: height }">
+        <div
+            class="owl-preview-canvas"
+            :style="{ width: width, height: height }"
+            @mousewheel="handleMousewheel"
+            @DOMMouseScroll="handleMousewheel"
+        >
             <template v-for="(item, i) in uri">
                 <img
                     :key="i"
@@ -146,6 +151,8 @@ export default {
             cacheY: 0,
             active: 0,
             handleMouseMove: debounce(this.move, 2),
+
+            handleMousewheel: debounce(this.mousewheel, 40),
         };
     },
     mounted() {
@@ -182,8 +189,6 @@ export default {
             this.cacheY = 0;
         },
         mousedown(e) {
-            const s = getComputedStyle(e.target)["margin"];
-            console.log(s);
             this.status = 1;
             this.statusLocation = { x: e.x, y: e.y };
         },
@@ -201,6 +206,14 @@ export default {
         enlarge() {
             if (this.scale < 2) {
                 this.scale += 0.1;
+            }
+        },
+        mousewheel(ev) {
+            const isUp = (ev.wheelDelta || ev.detail * -40) > 0;
+            if (isUp) {
+                this.enlarge();
+            } else {
+                this.zoomOut();
             }
         },
         /**
