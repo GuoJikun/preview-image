@@ -2,6 +2,9 @@
 
 Vue 图片预览组件
 
+[Github](https://github.com/GuoJikun/preview-image)
+[New issue](https://github.com/GuoJikun/preview-image/issues/new)
+
 ## 安装
 
 ```
@@ -66,3 +69,8 @@ Vue.use(foxPreviewImage)
 
 -   feat：
     -   支持鼠标滚轮放大缩小
+
+### v1.1.2
+
+-   fix：
+    -   修复火狐浏览器拖拽失效的问题

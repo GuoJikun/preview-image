@@ -17,19 +17,17 @@
             @DOMMouseScroll="handleMousewheel"
         >
             <template v-for="(item, i) in uri">
-                <img
+                <div
                     :key="i"
                     v-if="active === i"
-                    class="owl-preview-image"
-                    :style="{ transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)` }"
-                    :src="item"
-                    alt=""
-                    draggable="false"
-                    ref="ref"
                     @mousemove="handleMouseMove"
                     @mouseup="mouseup"
                     @mousedown="mousedown"
-                />
+                    :style="{ transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)` }"
+                    style="display: inline-block;"
+                >
+                    <img class="owl-preview-image" :src="item" alt="被拖拽的图片" draggable="false" />
+                </div>
             </template>
         </div>
         <!-- 关闭按钮 -->
@@ -152,7 +150,7 @@ export default {
             active: 0,
             handleMouseMove: debounce(this.move, 2),
 
-            handleMousewheel: debounce(this.mousewheel, 40),
+            handleMousewheel: debounce(this.mousewheel, 30),
         };
     },
     mounted() {
@@ -373,10 +371,12 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        font-size: 0;
     }
     &-image {
         user-select: none;
         display: block;
+        pointer-events: none;
         &:active {
             cursor: pointer;
         }
