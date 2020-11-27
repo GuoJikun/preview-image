@@ -4,18 +4,11 @@
         :style="{
             'z-index': zIndex,
             display: flag ? 'block' : 'none',
-            width: width,
-            height: height,
-            marginLeft: parseMg(width),
-            marginTop: parseMg(height),
+            marginLeft: '-50vw',
+            marginTop: '-50vh',
         }"
     >
-        <div
-            class="owl-preview-canvas"
-            :style="{ width: width, height: height }"
-            @mousewheel="handleMousewheel"
-            @DOMMouseScroll="handleMousewheel"
-        >
+        <div class="owl-preview-canvas" @mousewheel="handleMousewheel" @DOMMouseScroll="handleMousewheel">
             <template v-for="(item, i) in uri">
                 <div
                     :key="i"
@@ -123,14 +116,6 @@ export default {
             type: [Number, String],
             default: 9000,
         },
-        width: {
-            type: String,
-            default: "100vw",
-        },
-        height: {
-            type: String,
-            default: "100vh",
-        },
     },
     data() {
         return {
@@ -226,16 +211,7 @@ export default {
         anticlockwiseRotation() {
             this.angle -= 90;
         },
-        parseMg(val) {
-            const reg = /^\d+/g;
-            const target = val.match(reg);
-            let s = "";
-            if (target.length > 0) {
-                s = target[0];
-            }
-            s = s / 2 + val.replace(/\d+/, "");
-            return `-${s}`;
-        },
+
         /**
          * 获取滚动条的宽度
          */

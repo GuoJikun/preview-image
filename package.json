@@ -1,6 +1,6 @@
 {
     "name": "fox-preview-image",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "private": false,
     "description": "vue组件；图片预览组件；图片预览插件",
     "main": "lib/foxPreviewImage.umd.js",
