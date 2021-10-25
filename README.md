@@ -43,6 +43,11 @@ Vue.use(foxPreviewImage)
 
 ## 更新日志
 
+### v2.0.0
+
+-   feat:
+    -   增加 vue3 支持（安装：npm i fox-preview-image@next）
+
 ### v1.1.3
 
 -   refactor:

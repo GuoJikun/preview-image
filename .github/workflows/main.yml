@@ -5,33 +5,49 @@ name: 自动部署文档
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-    push:
-        branches: [master]
+  push:
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
     # This workflow contains a single job called "build"
-    build:
-        # The type of runner that the job will run on
-        runs-on: ubuntu-latest
-        # Steps represent a sequence of tasks that will be executed as part of the job
-        steps:
-            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - name: Checkout
-              uses: actions/checkout@v1
+  build:
+      # The type of runner that the job will run on
+      runs-on: ubuntu-latest
+      # Steps represent a sequence of tasks that will be executed as part of the job
+      strategy:
+        matrix:
+          node-version: [14.x]
+          npm-version: [7.x]
+      steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - name: Checkout
+          uses: actions/checkout@v2
+          
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ matrix.node-version }}
 
-            - name: 安装依赖
-              run: yarn
+        
+        # Runs a single command using the runners shell
+        - name: 安装pnpm
+          run: npm i -g pnpm
+        - name: 安装依赖
+          run: pnpm i
 
-            - name: 配置git
-              run: git config --global user.email "guojikun486546@163.com" && git config --global user.name "GuoJikun"
+        - name: 打包
+          run: pnpm run build
 
-            - name: build and deploy
-              env:
-                  ACCESS_TOKEN: ${{ secrets.git_token }}
-                  BRANCH: gh-pages
-              run: yarn run build
-            - name: 部署文档到gh-pages
-              env:
-                  ACCESS_TOKEN: ${{ secrets.git_token }}
-              run: cd docs && git init && git add -A && git commit -m "deploy" && git push -f https://$ACCESS_TOKEN@github.com/guojikun/preview-image.git master:gh-pages
+        - name: 配置git
+          run: git config --global user.email "guojikun486546@163.com" && git config --global user.name "GuoJikun"
+
+        - name: build and deploy
+          env:
+            ACCESS_TOKEN: ${{ secrets.git_token }}
+            BRANCH: gh-pages
+          run: pnpm run build
+        - name: 部署文档到gh-pages
+          env:
+            ACCESS_TOKEN: ${{ secrets.git_token }}
+          run: cd docs && git init && git add -A && git commit -m "deploy" && git push -f https://$ACCESS_TOKEN@github.com/guojikun/preview-image.git main:gh-pages

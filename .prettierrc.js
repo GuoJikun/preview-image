@@ -9,4 +9,5 @@ module.exports = {
     jsxBracketSameLine: false,
     proseWrap: "preserve",
     trailingComma: "es5",
+    ignorePath: ".prettierignore",
 };
