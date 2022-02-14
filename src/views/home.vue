@@ -27,7 +27,7 @@
 <script lang="ts">
 import jpg from "../assets/a.jpg";
 import logo from "../assets/logo.png";
-import FoxPreviewImage from "../components/preview-image/index";
+import { FoxPreviewImage } from "../components/preview-image/index";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({

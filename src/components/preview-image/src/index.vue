@@ -13,9 +13,8 @@
           @mousewheel="handleMousewheel"
           @DOMMouseScroll="handleMousewheel"
         >
-          <template v-for="(item, i) in uri">
+          <template v-for="(item, i) in uri" :key="i">
             <div
-              :key="i"
               v-if="active === i"
               @mousemove="handleMouseMove"
               @mouseup="mouseup"
@@ -160,7 +159,6 @@
 
 <script lang="ts">
 import types from "../../../utils/types";
-import { debounce } from "lodash";
 import {
   defineComponent,
   onMounted,
@@ -215,8 +213,10 @@ export default defineComponent({
         const mvY = mouseY - startLocation.y;
         x.value = mvX + x.value - cacheX.value;
         y.value = mvY + y.value - cacheY.value;
-        cacheX.value = mvX;
-        cacheY.value = mvY;
+        requestAnimationFrame(() => {
+          cacheX.value = mvX;
+          cacheY.value = mvY;
+        });
       }
     };
 
@@ -238,16 +238,20 @@ export default defineComponent({
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mousewheel = (ev: any) => {
-      const isUp = (ev.wheelDelta || ev.detail * -40) > 0;
-      if (isUp) {
-        enlarge();
-      } else {
-        zoomOut();
-      }
+      requestAnimationFrame(() => {
+        const isUp = (ev.wheelDelta || ev.detail * -40) > 0;
+        if (isUp) {
+          enlarge();
+        } else {
+          zoomOut();
+        }
+      });
     };
 
-    const handleMouseMove = debounce(move, 2);
-    const handleMousewheel = debounce(mousewheel, 30);
+    // const handleMouseMove = debounce(move, 2);
+    // const handleMousewheel = debounce(mousewheel, 30);
+    const handleMouseMove = move;
+    const handleMousewheel = mousewheel;
 
     const mouseup = () => {
       status.value = 0;

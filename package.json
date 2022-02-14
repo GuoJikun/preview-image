@@ -1,7 +1,7 @@
 {
   "name": "fox-preview-image",
   "private": false,
-  "version": "2.1.1",
+  "version": "2.1.2",
   "main": "lib/fox-preview-image.umd.js",
   "module": "lib/fox-preview-image.es.js",
   "files": [
@@ -15,7 +15,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12"
   },

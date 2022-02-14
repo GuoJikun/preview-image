@@ -7,4 +7,4 @@ const install = (app: App) => {
 
 export default install;
 
-export { PreviewImage };
+export const FoxPreviewImage = PreviewImage;
