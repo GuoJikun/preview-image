@@ -1,6 +1,6 @@
 {
   "name": "fox-preview-image",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -13,7 +13,7 @@
     "README.md"
   ],
   "main": "./lib/previewImage.umd.mini.js",
-  "module": "./dist/previewImage.umd.mini.js",
+  "module": "./lib/previewImage.umd.mini.js",
   "exports":{
     ".":{
       "import":  "./lib/previewImage.umd.mini.js",
