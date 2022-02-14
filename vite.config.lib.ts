@@ -13,7 +13,7 @@ export default defineConfig({
     outDir: "lib",
     lib: {
       entry: "./src/components/preview-image/index.ts",
-      name: "previewImage",
+      name: "foxPreviewImage",
     },
   },
 });

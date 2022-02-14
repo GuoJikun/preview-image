@@ -1,9 +1,13 @@
 {
   "name": "fox-preview-image",
-  "private": true,
-  "version": "2.1.0",
-  "main": "lib/fox-previewImage.umd.js",
-  "module": "lib/fox-previewImage.es.js",
+  "private": false,
+  "version": "2.1.1",
+  "main": "lib/fox-preview-image.umd.js",
+  "module": "lib/fox-preview-image.es.js",
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
