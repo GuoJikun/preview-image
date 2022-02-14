@@ -1,49 +1,27 @@
 {
   "name": "fox-preview-image",
-  "version": "2.0.4",
-  "private": false,
+  "private": true,
+  "version": "2.1.0",
+  "main": "lib/fox-previewImage.umd.js",
+  "module": "lib/fox-previewImage.es.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lib": "vue-cli-service build --dest lib --target lib --name previewImage ./src/components/preview-image/index.ts",
-    "lint": "vue-cli-service lint"
-  },
-  "files": [
-    "lib",
-    "README.md"
-  ],
-  "main": "./lib/previewImage.umd.mini.js",
-  "module": "./lib/previewImage.umd.mini.js",
-  "exports":{
-    ".":{
-      "import":  "./lib/previewImage.umd.mini.js",
-      "require":  "./lib/previewImage.umd.mini.js"
-    }
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "lib": "vue-tsc --noEmit && vite build -c vite.config.lib.ts",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
     "lodash": "^4.17.21",
-    "vue": "^3.0.0",
+    "vue": "^3.2.25",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.176",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^7.0.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.0.0",
-    "prettier": "^2.2.1",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
-    "typescript": "~4.1.5"
+    "@types/lodash": "^4.14.178",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "sass": "^1.49.7",
+    "sass-loader": "^12.4.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "vue-tsc": "^0.29.8"
   }
 }
