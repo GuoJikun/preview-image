@@ -248,8 +248,6 @@ export default defineComponent({
       });
     };
 
-    // const handleMouseMove = debounce(move, 2);
-    // const handleMousewheel = debounce(mousewheel, 30);
     const handleMouseMove = move;
     const handleMousewheel = mousewheel;
 
@@ -338,11 +336,20 @@ export default defineComponent({
       init();
     });
 
+    const hasScrollbar = (el: HTMLElement) => {
+      if (el.scrollHeight > el.clientHeight) {
+        return true;
+      }
+      return false;
+    };
+
     watchEffect(() => {
       flag.value = props.modelValue;
-      console.log(flag.value);
       if (props.modelValue) {
-        document.body.style.paddingRight = getScrollWidth() + "px";
+        const isScrollBar = hasScrollbar(document.body);
+        if (isScrollBar) {
+          document.body.style.paddingRight = getScrollWidth() + "px";
+        }
         document.body.style.overflow = "hidden";
       } else {
         document.body.setAttribute("style", "");
