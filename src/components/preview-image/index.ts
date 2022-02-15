@@ -1,8 +1,10 @@
 import PreviewImage from "./src/index.vue";
 import { App } from "vue";
 
-PreviewImage.install = (app: App) => {
-    app.component(PreviewImage.name, PreviewImage);
+const install = (app: App) => {
+  app.component(PreviewImage.name, PreviewImage);
 };
 
-export default PreviewImage;
+export default install;
+
+export const FoxPreviewImage = PreviewImage;

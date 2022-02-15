@@ -17,6 +17,6 @@ jobs:
       - run: npm i -g pnpm
       - run: pnpm i
       - run: pnpm run lib
-      - run: npm publish --tag next
+      - run: npm publish
         env:
-            NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}

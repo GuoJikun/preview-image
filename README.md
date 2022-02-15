@@ -2,6 +2,8 @@
 
 Vue 图片预览组件
 
+> vue2.x 请使用 @1.x 版本
+
 [Github](https://github.com/GuoJikun/preview-image)
 [New issue](https://github.com/GuoJikun/preview-image/issues/new)
 
