@@ -4,6 +4,7 @@
   "version": "2.2.0",
   "main": "lib/fox-preview-image.umd.js",
   "module": "lib/fox-preview-image.es.js",
+  "browser": "lib/fox-preview-image.umd.js",
   "files": [
     "lib",
     "README.md"
@@ -26,7 +27,7 @@
     "sass": "^1.49.7",
     "sass-loader": "^12.4.0",
     "typescript": "^4.5.4",
-    "vite": "^2.8.0",
+    "vite": "^3.0.4",
     "vue-tsc": "^0.29.8"
   }
 }
