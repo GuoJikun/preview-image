@@ -1,7 +1,7 @@
 {
   "name": "fox-preview-image",
   "private": false,
-  "version": "2.2.0",
+  "version": "2.3.0",
   "main": "lib/fox-preview-image.umd.js",
   "module": "lib/fox-preview-image.es.js",
   "browser": "lib/fox-preview-image.umd.js",

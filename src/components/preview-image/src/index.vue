@@ -82,6 +82,7 @@
           ></div>
 
           <div
+            v-if="uri && uri.length > 1"
             title="图片位置"
             class="owl-preview-utils-item owl-preview-utils-position"
             v-text="getCurrIndex"
