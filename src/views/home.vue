@@ -8,6 +8,7 @@
           <fox-preview-image
             v-model="visible"
             :src="[a, b]"
+            :initial-index="1"
           ></fox-preview-image>
         </div>
       </div>

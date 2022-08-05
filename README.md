@@ -19,7 +19,7 @@ yarn add fox-preview-image
 
 ```
 import foxPreviewImage from "fox-preview-image";
-
+import "fox-preview-image/lib/style.css";
 Vue.use(foxPreviewImage)
 ```
 
@@ -41,9 +41,15 @@ Vue.use(foxPreviewImage)
 | ---------------- | :--------------------------- | :----------- | :----- |
 | src              | 预览图片的地址               | String/Array | -      |
 | visiable/v-model | 是否显示预览窗口             | Boolean      | false  |
+| initial-index | 默认显示图片的下标             | Number      | 0  |
 | z-index          | 预览窗口的层级-css 的 zIndex | Number       | 9000   |
 
 ## 更新日志
+
+### v2.4.0
+
+*   feat:
+    -   增加默认显示第几张图片的功能
 
 ### v2.3.0
 

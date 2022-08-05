@@ -23,8 +23,11 @@ export default defineConfig({
       },
     },
     lib: {
-      entry: "./src/components/preview-image/index.ts",
+      entry: resolve(__dirname, "./src/components/preview-image/index.ts"),
       name: "foxPreviewImage",
+      fileName: "preview-image",
+      formats: ["umd", "cjs", "es"],
     },
+    cssCodeSplit: false,
   },
 });

@@ -129,16 +129,26 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    src: [String, Array],
+    src: {
+      type: [String, Array],
+      required: true,
+    },
     zIndex: {
       type: Number,
       default: 9000,
+    },
+    initialIndex: {
+      type: Number,
+      default: 0,
     },
   },
   setup(props, { emit }) {
     let flag = ref<boolean>(false);
     let status = ref<number>(0);
-    let active = ref<number>(0);
+    let active =
+      props.src && props.src.length
+        ? ref<number>(props.initialIndex)
+        : ref<number>(0);
     let angle = ref<number>(0);
     let scale = ref<number>(1);
     let cacheX = ref<number>(0);
@@ -318,8 +328,9 @@ export default defineComponent({
 
     watchEffect(() => {
       const type = types(props.src);
-      active.value = 0;
+      // active.value = props.initialIndex;
       if (type === "string") {
+        active.value = 0;
         angle.value = 0;
         scale.value = 1;
         x.value = 0;
@@ -331,6 +342,11 @@ export default defineComponent({
 
         uri.value = [props.src as string];
       } else if (type === "array") {
+        if (props.initialIndex >= 0 && props.initialIndex < props.src.length) {
+          active.value = props.initialIndex;
+        } else {
+          active.value = 0;
+        }
         uri.value = props.src as string[];
         angle.value = 0;
         scale.value = 1;
