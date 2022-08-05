@@ -48,6 +48,11 @@ Vue.use(foxPreviewImage)
 
 ### v2.4.0
 
+*   fix:
+    -   修复css导入错误
+
+### v2.4.0
+
 *   feat:
     -   增加默认显示第几张图片的功能
 

@@ -1,17 +1,10 @@
 {
   "name": "fox-preview-image",
   "private": false,
-  "version": "2.4.0",
+  "version": "2.4.1",
   "main": "lib/preview-image.umd.js",
   "module": "lib/preview-image.mjs",
   "browser": "lib/preview-image.umd.js",
-  "exports": {
-    ".": {
-      "require": "./lib/preview-image.js",
-      "import": "./lib/preview-image.mjs",
-      "browser": "./lib/preview-image.umd.js"
-    }
-  },
   "files": [
     "lib",
     "README.md"
