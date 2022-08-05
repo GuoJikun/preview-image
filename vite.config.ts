@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/preview-image/",
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),

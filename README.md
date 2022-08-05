@@ -45,46 +45,51 @@ Vue.use(foxPreviewImage)
 
 ## 更新日志
 
+### v2.3.0
+
+*   feat:
+    -   增加显示当前图片下标的功能(仅在多图下显示)
+
 ### v2.0.0
 
--   feat:
+*   feat:
     -   增加 vue3 支持（安装：npm i fox-preview-image@next）
 
 ### v1.1.3
 
--   refactor:
+*   refactor:
 
     -   删除冗余代码
 
 ### v1.1.2
 
--   fix：
+*   fix：
 
     -   修复火狐浏览器拖拽失效的问题
 
 ### v1.1.1
 
--   feat：
+*   feat：
     -   支持鼠标滚轮放大缩小
 
 ### v1.1.0
 
--   feat：
+*   feat：
     -   增加缩放倍数显示
 
 ### v1.0.2
 
--   fix:
+*   fix:
     -   修复当预览的图片为 1 张时扔显示左右切换按钮的问题
 
 ### v1.0.1
 
--   fix:
+*   fix:
     -   修复拖拽时图片未完全跟随鼠标的 bug
 
 ### v1.0.0
 
--   feat:
+*   feat:
     -   旋转
     -   放大，缩小（0.5-2）
     -   多张图片可以传数组 eg：['http://xxxx.com/a.png','http://xxxx.com/b.png']
