@@ -1,10 +1,17 @@
 {
   "name": "fox-preview-image",
-  "private": false,
-  "version": "2.4.1",
+  "description": "一个支持vue2和vue3的预览图片组件",
+  "version": "2.4.2",
   "main": "lib/preview-image.umd.js",
   "module": "lib/preview-image.mjs",
   "browser": "lib/preview-image.umd.js",
+  "keywords": [
+    "previewImage",
+    "preview",
+    "image",
+    "imagePreview",
+    "fox"
+  ],
   "files": [
     "lib",
     "README.md"
@@ -30,5 +37,15 @@
     "vite": "^3.0.4",
     "vue-tsc": "^0.29.8"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GuoJikun/preview-image.git"
+  },
+  "homepage": "https://github.com/GuoJikun/preview-image",
+  "bugs": {
+    "url": "https://github.com/GuoJikun/preview-image/issues",
+    "email": "guojikun486546@163.com"
+  },
+  "private": false,
   "license": "MIT"
 }

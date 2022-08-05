@@ -46,7 +46,7 @@ Vue.use(foxPreviewImage)
 
 ## 更新日志
 
-### v2.4.0
+### v2.4.1
 
 *   fix:
     -   修复css导入错误
