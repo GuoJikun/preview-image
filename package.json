@@ -1,25 +1,41 @@
 {
   "name": "fox-preview-image",
   "description": "一个支持vue2和vue3的预览图片组件",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "main": "lib/preview-image.umd.js",
   "module": "lib/preview-image.mjs",
   "browser": "lib/preview-image.umd.js",
+  "types": "types/components/preview-image/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/preview-image.js",
+      "import": "./lib/preview-image.mjs",
+      "browser": "./lib/preview-image.umd.js",
+      "types": "./types/components/preview-image/index.d.ts"
+    },
+    "./lib/style.css": {
+      "require": "./lib/style.css",
+      "import": "./lib/style.css",
+      "browser": "./lib/style.css"
+    }
+  },
   "keywords": [
     "previewImage",
     "preview",
     "image",
     "imagePreview",
-    "fox"
+    "fox",
+    "preview-image"
   ],
   "files": [
     "lib",
+    "types/components/preview-image/index.d.ts",
     "README.md"
   ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "lib": "vue-tsc --noEmit && vite build -c vite.config.lib.ts",
+    "lib": "vue-tsc --declaration --emitDeclarationOnly && vite build -c vite.config.lib.ts",
     "preview": "vite preview"
   },
   "peerDependencies": {

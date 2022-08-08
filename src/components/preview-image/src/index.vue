@@ -2,10 +2,13 @@
   <teleport to="body">
     <transition>
       <div
+        ref="refEl"
         class="owl-preview"
         :style="{
           'z-index': zIndex,
         }"
+        tabindex="1"
+        @keyup.esc.exact="close"
         v-if="flag"
       >
         <div
@@ -143,6 +146,8 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const bodyStyleCache = ref<null | string>(null);
+    const refEl = ref(null);
     let flag = ref<boolean>(false);
     let status = ref<number>(0);
     let active =
@@ -316,19 +321,27 @@ export default defineComponent({
     watchEffect(() => {
       flag.value = props.modelValue;
       if (props.modelValue) {
+        if (refEl.value !== null) {
+          (refEl.value as HTMLElement).focus();
+        }
         const isScrollBar = hasScrollbar(document.body);
         if (isScrollBar) {
           document.body.style.paddingRight = getScrollWidth() + "px";
+          bodyStyleCache.value = document.body.getAttribute("style");
         }
+
         document.body.style.overflow = "hidden";
       } else {
-        document.body.setAttribute("style", "");
+        if (bodyStyleCache.value) {
+          document.body.setAttribute("style", bodyStyleCache.value as string);
+        } else {
+          document.body.removeAttribute("style");
+        }
       }
     });
 
     watchEffect(() => {
       const type = types(props.src);
-      // active.value = props.initialIndex;
       if (type === "string") {
         active.value = 0;
         angle.value = 0;
@@ -361,6 +374,7 @@ export default defineComponent({
     });
 
     return {
+      refEl,
       flag,
       status,
       active,
