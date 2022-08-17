@@ -16,6 +16,7 @@ declare const _default: import("vue").DefineComponent<{
         default: number;
     };
 }, {
+    refEl: import("vue").Ref<null>;
     flag: import("vue").Ref<boolean>;
     status: import("vue").Ref<number>;
     active: import("vue").Ref<number>;

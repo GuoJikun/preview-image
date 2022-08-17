@@ -19,6 +19,7 @@ export declare const FoxPreviewImage: import("vue").DefineComponent<{
         default: number;
     };
 }, {
+    refEl: import("vue").Ref<null>;
     flag: import("vue").Ref<boolean>;
     status: import("vue").Ref<number>;
     active: import("vue").Ref<number>;

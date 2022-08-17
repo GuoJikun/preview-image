@@ -146,7 +146,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const bodyStyleCache = ref<null | string>(null);
+    let bodyStyleCache = "";
     const refEl = ref(null);
     let flag = ref<boolean>(false);
     let status = ref<number>(0);
@@ -312,7 +312,7 @@ export default defineComponent({
     });
 
     const hasScrollbar = (el: HTMLElement) => {
-      if (el.scrollHeight > el.clientHeight) {
+      if (el.scrollHeight > window.innerHeight) {
         return true;
       }
       return false;
@@ -327,16 +327,11 @@ export default defineComponent({
         const isScrollBar = hasScrollbar(document.body);
         if (isScrollBar) {
           document.body.style.paddingRight = getScrollWidth() + "px";
-          bodyStyleCache.value = document.body.getAttribute("style");
+          document.body.classList.add("fox-lock-window");
         }
-
-        document.body.style.overflow = "hidden";
       } else {
-        if (bodyStyleCache.value) {
-          document.body.setAttribute("style", bodyStyleCache.value as string);
-        } else {
-          document.body.removeAttribute("style");
-        }
+        document.body.classList.remove("fox-lock-window");
+        document.body.style.paddingRight = "0px";
       }
     });
 
@@ -415,6 +410,7 @@ export default defineComponent({
   background-color: rgba($color: #000000, $alpha: 0.4);
   overflow: hidden;
   border-radius: 4px;
+  backdrop-filter: saturate(50%) blur(4px);
   &-canvas {
     width: 100vw;
     height: 100vh;
@@ -433,20 +429,26 @@ export default defineComponent({
   }
   &-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: -40px;
+    right: -40px;
     user-select: none;
     cursor: pointer;
-    background-color: #606266;
+    background-color: rgba($color: #000000, $alpha: 0.3);
     border-radius: 50%;
     font-size: 26px;
-    display: flex;
-    height: 30px;
-    width: 30px;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
+    height: 80px;
+    width: 80px;
     color: white;
+    overflow: hidden;
+    transition: background-color 0.15s;
+    & > svg {
+      position: absolute;
+      left: 15px;
+      bottom: 15px;
+    }
+    &:hover {
+      background-color: rgba($color: #000000, $alpha: 0.5);
+    }
   }
   &-operate {
     &-item {
@@ -546,6 +548,9 @@ export default defineComponent({
   width: 1em;
   height: 1em;
   fill: currentColor;
+  overflow: hidden;
+}
+.fox-lock-window {
   overflow: hidden;
 }
 </style>
