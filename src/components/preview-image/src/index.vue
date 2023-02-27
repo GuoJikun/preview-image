@@ -101,6 +101,11 @@
             class="owl-preview-utils-item"
             @click="anticlockwiseRotation"
           />
+          <Download
+            title="下载/保存"
+            class="owl-preview-utils-item"
+            @click="downloadFile"
+          />
         </div>
       </div>
     </transition>
@@ -115,6 +120,7 @@ import Close from "@/components/close.vue";
 import RotateLeft from "@/components/rotate-left.vue";
 import RotateRight from "@/components/rotate-right.vue";
 import ArrowRight from "@/components/arrow-right.vue";
+import Download from "@/components/download.vue";
 import {
   defineComponent,
   onMounted,
@@ -126,7 +132,15 @@ import {
 
 export default defineComponent({
   name: "FoxPreviewImage",
-  components: { ZoomOut, ZoomIn, RotateLeft, RotateRight, Close, ArrowRight },
+  components: {
+    ZoomOut,
+    ZoomIn,
+    RotateLeft,
+    RotateRight,
+    Close,
+    ArrowRight,
+    Download,
+  },
   props: {
     modelValue: {
       type: Boolean,
@@ -241,6 +255,17 @@ export default defineComponent({
      */
     const anticlockwiseRotation = () => {
       angle.value -= 90;
+    };
+
+    /**下载图片 */
+
+    const downloadFile = () => {
+      const cur = uri.value[active.value];
+      const a = document.createElement("a");
+      a.download = cur.split("/").at(-1) as string;
+      a.href = cur;
+      a.click();
+      a.remove();
     };
 
     /**
@@ -393,6 +418,7 @@ export default defineComponent({
       /**computed */
       getCurrScale,
       getCurrIndex,
+      downloadFile,
     };
   },
 });
@@ -549,6 +575,7 @@ export default defineComponent({
   height: 1em;
   fill: currentColor;
   overflow: hidden;
+  font-weight: 500;
 }
 .fox-lock-window {
   overflow: hidden;
