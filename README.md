@@ -46,6 +46,13 @@ Vue.use(foxPreviewImage)
 
 ## 更新日志
 
+### v2.6.0
+
+feat:
+
+- 增加下载功能
+- 统一icon
+
 ### v2.4.1
 
 *   fix:

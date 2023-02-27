@@ -41,6 +41,7 @@ export declare const FoxPreviewImage: import("vue").DefineComponent<{
     clockwiseRotation: () => void;
     getCurrScale: import("vue").ComputedRef<number>;
     getCurrIndex: import("vue").ComputedRef<string>;
+    downloadFile: () => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, Record<string, any>, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;
