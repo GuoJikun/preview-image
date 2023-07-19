@@ -2,15 +2,15 @@
   "name": "fox-preview-image",
   "description": "一个支持vue2和vue3的预览图片组件",
   "version": "2.7.0",
-  "main": "lib/preview-image.umd.js",
-  "module": "lib/preview-image.mjs",
-  "browser": "lib/preview-image.umd.js",
+  "main": "lib/preview-image-umd.js",
+  "module": "lib/preview-image-es.js",
+  "browser": "lib/preview-image-umd.js",
   "types": "types/components/preview-image/index.d.ts",
   "exports": {
     ".": {
-      "require": "./lib/preview-image.js",
-      "import": "./lib/preview-image.mjs",
-      "browser": "./lib/preview-image.umd.js",
+      "require": "./lib/preview-image-umd.js",
+      "import": "./lib/preview-image-es.js",
+      "browser": "./lib/preview-image-umd.js",
       "types": "./types/components/preview-image/index.d.ts"
     },
     "./lib/style.css": {
@@ -20,6 +20,7 @@
     }
   },
   "keywords": [
+    "frontend",
     "previewImage",
     "preview",
     "image",
@@ -29,7 +30,8 @@
   ],
   "files": [
     "lib",
-    "types",
+    "types/components",
+    "types/utils",
     "package.json",
     "README.md"
   ],
@@ -41,7 +43,7 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
-    "type-check": "vue-tsc --declaration --emitDeclarationOnly -p tsconfig.vitest.json --composite false",
+    "type-check": "vue-tsc --emitDeclarationOnly -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "release": "release-it"
