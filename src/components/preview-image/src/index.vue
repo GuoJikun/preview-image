@@ -359,6 +359,9 @@ watch(
       cacheY.value = 0
       uri.value = val as string[]
     }
+  },
+  {
+    immediate: true
   }
 )
 </script>
