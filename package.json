@@ -1,7 +1,7 @@
 {
   "name": "fox-preview-image",
   "description": "一个支持vue2和vue3的预览图片组件",
-  "version": "2.7.0",
+  "version": "2.6.0",
   "main": "lib/preview-image.umd.js",
   "module": "lib/preview-image.mjs",
   "browser": "lib/preview-image.umd.js",
@@ -43,7 +43,8 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --declaration --emitDeclarationOnly -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "release": "release-it"
   },
   "peerDependencies": {
     "vue": "^3.3.4"
@@ -67,6 +68,8 @@
     "jsdom": "^22.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
+    "release-it": "^16.1.2",
+    "sass": "^1.63.6",
     "typescript": "~5.0.4",
     "vite": "^4.3.9",
     "vitest": "^0.32.0",
