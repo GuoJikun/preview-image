@@ -1,10 +1,15 @@
 {
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "cypress.config.*",
+    "nightwatch.conf.*",
+    "playwright.config.*"
+  ],
   "compilerOptions": {
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "composite": true,
-    "module": "esnext",
-    "moduleResolution": "node"
-  },
-  "include": ["vite.config.ts"]
+    "module": "ESNext",
+    "types": ["node"]
+  }
 }
