@@ -1,7 +1,7 @@
 {
   "name": "fox-preview-image",
   "description": "一个支持vue2和vue3的预览图片组件",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "main": "lib/preview-image-umd.js",
   "module": "lib/preview-image-es.js",
   "browser": "lib/preview-image-umd.js",
