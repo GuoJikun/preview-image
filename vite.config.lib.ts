@@ -28,7 +28,13 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, './src/components/preview-image/index.ts'),
       name: 'foxPreviewImage',
-      fileName: (format) => `preview-image-${format}.js`,
+      fileName: (format) => {
+        if (format === 'es') {
+          return 'preview-image.mjs'
+        } else {
+          return `preview-image.js`
+        }
+      },
       formats: ['umd', 'es']
     },
     cssCodeSplit: false
