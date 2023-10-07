@@ -35,7 +35,6 @@ export default defineConfig({
         return `preview-image.js`
       }
     },
-    cssCodeSplit: false,
-    minify: 'terser'
+    cssCodeSplit: false
   }
 })
