@@ -35,6 +35,9 @@
     "format": "prettier --write src/",
     "release": "release-it"
   },
+  "engines": {
+    "node": ">=16.14.0"
+  },
   "peerDependencies": {
     "vue": "^3.3.4"
   },
