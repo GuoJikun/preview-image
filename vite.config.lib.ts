@@ -31,12 +31,11 @@ export default defineConfig({
       fileName: (format) => {
         if (format === 'es') {
           return 'preview-image.mjs'
-        } else {
-          return `preview-image.js`
         }
-      },
-      formats: ['umd', 'es']
+        return `preview-image.js`
+      }
     },
-    cssCodeSplit: false
+    cssCodeSplit: false,
+    minify: 'terser'
   }
 })
