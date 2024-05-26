@@ -63,7 +63,7 @@ defineOptions({
   name: 'FoxPreviewImage'
 })
 
-interface Props {
+export interface Props {
   modelValue: boolean
   src: string | string[]
   zIndex?: number

@@ -18,8 +18,7 @@
   ],
   "files": [
     "lib",
-    "types/components",
-    "types/utils",
+    "types",
     "package.json",
     "README.md"
   ],
@@ -31,7 +30,7 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
-    "type-check": "vue-tsc --emitDeclarationOnly -p tsconfig.vitest.json --composite false",
+    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
@@ -64,6 +63,7 @@
     "sass": "^1.77.2",
     "typescript": "~5.4.0",
     "vite": "^5.2.8",
+    "vite-plugin-dts": "^3.9.1",
     "vite-plugin-vue-devtools": "^7.0.25",
     "vitest": "^1.4.0",
     "vue-tsc": "^2.0.11"

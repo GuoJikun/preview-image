@@ -15,18 +15,18 @@ const handleNextClick = () => {
 </script>
 
 <template>
-  <div class="preview-switch">
-    <div class="preview-switch-item preview-switch-item-left" @click="handlePrevClick">
+  <div class="fox-preview-switch">
+    <div class="fox-preview-switch-item fox-preview-switch-item-left" @click="handlePrevClick">
       <ArrowRight class="preview-operate-icon preview-switch-icon-left" />
     </div>
-    <div class="preview-switch-item" @click="handleNextClick">
-      <ArrowRight class="preview-switch-icon preview-switch-icon" />
+    <div class="fox-preview-switch-item" @click="handleNextClick">
+      <ArrowRight class="fox-preview-switch-icon fox-preview-switch-icon" />
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.preview-switch {
+<style lang="scss">
+.fox-preview-switch {
   z-index: 10;
 
   &-item {

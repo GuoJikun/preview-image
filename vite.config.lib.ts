@@ -1,10 +1,11 @@
 import { fileURLToPath, URL } from 'node:url'
-import {resolve} from 'node:path'
+import { resolve } from 'node:path'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import VueDevTools from 'vite-plugin-vue-devtools'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +14,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  plugins: [vue(), vueJsx(), VueDevTools(),],
+  plugins: [
+    vue(),
+    vueJsx(),
+    dts({
+      tsconfigPath: './tsconfig.json',
+      outDir: 'types'
+    }),
+    VueDevTools()
+  ],
   publicDir: false,
   appType: 'custom',
   build: {
@@ -30,7 +39,10 @@ export default defineConfig({
       }
     },
     lib: {
-      entry: resolve(fileURLToPath(new URL('./src', import.meta.url)), '/components/preview-image/index.ts'),
+      entry: resolve(
+        fileURLToPath(new URL('./src', import.meta.url)),
+        'components/preview-image/index.ts'
+      ),
       name: 'foxPreviewImage',
       fileName: (format: string) => {
         if (format === 'es') {
@@ -38,7 +50,6 @@ export default defineConfig({
         }
         return `preview-image.js`
       }
-    },
-    cssCodeSplit: false
+    }
   }
 })

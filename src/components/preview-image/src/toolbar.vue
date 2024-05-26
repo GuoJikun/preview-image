@@ -5,7 +5,7 @@ import RotateLeft from '@/components/rotate-left.vue'
 import RotateRight from '@/components/rotate-right.vue'
 import Download from '@/components/download.vue'
 
-interface Props {
+export interface Props {
   scale: number
   index: string
 }
@@ -14,10 +14,8 @@ const props = withDefaults(defineProps<Props>(), {
   scale: 1,
   index: '1/1'
 })
-
-const emit = defineEmits<{ click: [type: OperateType]}>()
-
-type OperateType = 'zoom-out' | 'zoom-in' | 'contraRotate' | 'clockwiseRotation' | 'download'
+export type OperateType = 'zoom-out' | 'zoom-in' | 'contraRotate' | 'clockwiseRotation' | 'download'
+const emit = defineEmits<{ click: [type: OperateType] }>()
 
 const handleClick = (type: OperateType) => {
   emit('click', type)
@@ -25,41 +23,60 @@ const handleClick = (type: OperateType) => {
 </script>
 
 <template>
-  <div class="toolbar">
-    <ZoomOut role="button" title="缩小" class="toolbar-item" @click="handleClick('zoom-out')" />
-    <ZoomIn role="button" title="放大" class="toolbar-item" @click="handleClick('zoom-in')" />
+  <div class="fox-preview-toolbar">
+    <ZoomOut
+      role="button"
+      title="缩小"
+      class="fox-preview-toolbar-item"
+      @click="handleClick('zoom-out')"
+    />
+    <ZoomIn
+      role="button"
+      title="放大"
+      class="fox-preview-toolbar-item"
+      @click="handleClick('zoom-in')"
+    />
 
-    <div role="button" title="缩放倍数" tabindex="-1" class="toolbar-item toolbar-scale">
+    <div
+      role="button"
+      title="缩放倍数"
+      tabindex="-1"
+      class="fox-preview-toolbar-item fox-preview-toolbar-scale"
+    >
       {{ props.scale }}
     </div>
 
-    <div role="button" title="图片位置" class="toolbar-item toolbar-position">
+    <div
+      role="button"
+      title="图片位置"
+      class="fox-preview-toolbar-item fox-preview-toolbar-position"
+    >
       {{ props.index }}
     </div>
 
     <RotateLeft
       role="button"
       title="左旋转"
-      class="toolbar-item"
+      class="fox-preview-toolbar-item"
       @click="handleClick('contraRotate')"
     />
     <RotateRight
       role="button"
       title="右旋转"
-      class="toolbar-item"
+      class="fox-preview-toolbar-item"
       @click="handleClick('clockwiseRotation')"
     />
     <Download
       role="button"
       title="下载/保存"
-      class="toolbar-item"
+      class="fox-preview-toolbar-item"
       @click="handleClick('download')"
     />
   </div>
 </template>
 
-<style lang="scss" scoped>
-.toolbar {
+<style lang="scss">
+.fox-preview-toolbar {
   position: absolute;
   bottom: 5%;
   left: 50%;
