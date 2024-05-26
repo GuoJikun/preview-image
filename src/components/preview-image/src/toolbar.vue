@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
   index: '1/1'
 })
 
-const emit = defineEmits(['click'])
+const emit = defineEmits<{ click: [type: OperateType]}>()
 
 type OperateType = 'zoom-out' | 'zoom-in' | 'contraRotate' | 'clockwiseRotation' | 'download'
 

@@ -2,8 +2,8 @@
 import ArrowRight from '@/components/arrow-right.vue'
 
 const emit = defineEmits<{
-  (e: 'prev'): void
-  (e: 'next'): void
+  prev: []
+  next: []
 }>()
 
 const handlePrevClick = () => {
