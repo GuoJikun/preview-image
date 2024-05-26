@@ -17,8 +17,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     strategy:
       matrix:
-        node-version: [16.x]
-        npm-version: [7.x]
+        node-version: [18.x]
+        npm-version: [9.x]
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
