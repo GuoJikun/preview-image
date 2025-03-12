@@ -1,12 +1,12 @@
 <template>
-  <teleport :to="props.appendTo">
+  <teleport :to="props.appendTo" :disabled="props.enableTeleport === false">
     <transition>
       <div
         role="dialog"
         ref="refEl"
         class="fox-preview"
         :style="{
-          'z-index': props.zIndex
+          'z-index': props.zIndex,
         }"
         tabindex="1"
         @keyup.esc.exact="close"
@@ -24,7 +24,7 @@
               @mouseup="mouseup"
               @mousedown="mousedown"
               :style="{
-                transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)`
+                transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)`,
               }"
               style="display: inline-block"
             >
@@ -57,10 +57,10 @@ import Switch from './switch.vue'
 import Toolbar from './toolbar.vue'
 import { watch, onMounted, computed, ref, reactive, onBeforeMount } from 'vue'
 import { useThrottleFn } from '@vueuse/core'
-import { downloadFile, getScrollWidth } from './utils'
+import { downloadFile, getScrollWidth, type ToolType } from './utils'
 
 defineOptions({
-  name: 'FoxPreviewImage'
+  name: 'FoxPreviewImage',
 })
 
 export interface Props {
@@ -70,6 +70,7 @@ export interface Props {
   initialIndex?: number
   appendTo?: string | HTMLElement
   showToolbar?: boolean
+  enableTeleport?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -78,7 +79,8 @@ const props = withDefaults(defineProps<Props>(), {
   zIndex: 9000,
   initialIndex: 0,
   appendTo: 'body',
-  showToolbar: true
+  showToolbar: true,
+  enableTeleport: false,
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -90,19 +92,19 @@ onBeforeMount(() => {
 })
 
 const refEl = ref(null)
-let flag = ref<boolean>(false)
-let status = ref<number>(0)
-let active = props.src && props.src.length ? ref<number>(props.initialIndex) : ref<number>(0)
-let angle = ref<number>(0)
-let scale = ref<number>(1)
-let cacheX = ref<number>(0)
-let cacheY = ref<number>(0)
-let x = ref<number>(0)
-let y = ref<number>(0)
-let uri = ref<Array<string>>([])
+const flag = ref<boolean>(false)
+const status = ref<number>(0)
+const active = props.src && props.src.length ? ref<number>(props.initialIndex) : ref<number>(0)
+const angle = ref<number>(0)
+const scale = ref<number>(1)
+const cacheX = ref<number>(0)
+const cacheY = ref<number>(0)
+const x = ref<number>(0)
+const y = ref<number>(0)
+const uri = ref<Array<string>>([])
 let startLocation = reactive({
   x: 0,
-  y: 0
+  y: 0,
 })
 
 const init = () => {
@@ -235,7 +237,7 @@ const getCurrIndex = computed(() => {
   return `${active.value + 1}/${uri.value.length}`
 })
 
-const handleToolsClick = (type: any) => {
+const handleToolsClick = (type: ToolType) => {
   switch (type) {
     case 'zoom-out':
       zoomOut()
@@ -287,7 +289,7 @@ watch(
         document.body.removeAttribute('style')
       }
     }
-  }
+  },
 )
 
 watch(
@@ -312,8 +314,8 @@ watch(
     }
   },
   {
-    immediate: true
-  }
+    immediate: true,
+  },
 )
 </script>
 

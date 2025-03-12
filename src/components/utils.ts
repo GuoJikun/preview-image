@@ -1,3 +1,5 @@
+export type ToolType = 'zoom-out' | 'zoom-in' | 'contraRotate' | 'clockwiseRotation' | 'download'
+
 export const downloadFile = (url: string, name: string) => {
   const a = document.createElement('a')
   a.download = name
