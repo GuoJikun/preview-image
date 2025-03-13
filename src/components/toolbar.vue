@@ -81,7 +81,7 @@ const handleClick = (type: ToolType) => {
   position: absolute;
   bottom: 5%;
   left: 50%;
-  transform: translateX(-98px);
+  transform: translateX(-50%);
   border-radius: 30px;
   z-index: 10;
   background-color: #606266;

@@ -1,7 +1,7 @@
 {
   "name": "fox-preview-image",
   "description": "一个支持 vue3 的预览图片组件",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "type": "module",
   "main": "lib/preview-image.js",
   "module": "lib/preview-image.mjs",
