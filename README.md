@@ -33,7 +33,7 @@ Vue.use(foxPreviewImage)
 
 ## 演示地址
 
-[文档以及 demo 地址](https://blog.jikun.dev/docs/preview-image.html)
+[文档以及 demo 地址](https://docs.jikun.dev/components/preview-image.html)
 
 ## API
 
