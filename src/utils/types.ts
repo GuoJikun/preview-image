@@ -1,29 +1,29 @@
-export function type<T extends unknown>(value: T): string {
+export function type<T>(value: T): string {
   const target = Object.prototype.toString.call(value)
   const type = target.replace(new RegExp('(^[[a-z]+ )([A-Za-z]+)(])', 'g'), '$2').toLowerCase()
   return type
 }
 
 interface TypeProto {
-  isObject: <T extends unknown>(val: T) => boolean
-  isFunction: <T extends unknown>(val: T) => boolean
-  isArray: <T extends unknown>(val: T) => boolean
-  isSymbol: <T extends unknown>(val: T) => boolean
+  isObject: <T>(val: T) => boolean
+  isFunction: <T>(val: T) => boolean
+  isArray: <T>(val: T) => boolean
+  isSymbol: <T>(val: T) => boolean
   isFalse: <T extends never>(val: T) => boolean
 }
 
 const prototype: TypeProto = Object.create(null)
 
-function isObject<T extends unknown>(val: T): boolean {
+function isObject<T>(val: T): boolean {
   return type(val) === 'object'
 }
-function isFunction<T extends unknown>(val: T): boolean {
+function isFunction<T>(val: T): boolean {
   return type(val) === 'function'
 }
-function isArray<T extends unknown>(val: T): boolean {
+function isArray<T>(val: T): boolean {
   return type(val) === 'array'
 }
-function isSymbol<T extends unknown>(val: T): boolean {
+function isSymbol<T>(val: T): boolean {
   return type(val) === 'symbol'
 }
 

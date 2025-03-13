@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import a from './assets/a.jpg'
 import b from './assets/logo.png'
-import FoxPreviewImage from './components/preview-image/index'
+import FoxPreviewImage from './components/index'
 
 const visible = ref<boolean>(false)
 const visible1 = ref<boolean>(false)

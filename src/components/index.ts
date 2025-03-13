@@ -1,4 +1,4 @@
-import PreviewImage from './src/index.vue'
+import PreviewImage from './index.vue'
 import type { App } from 'vue'
 
 PreviewImage.install = (app: App) => {

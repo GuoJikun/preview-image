@@ -4,6 +4,7 @@ import ZoomIn from '@/components/zoom-in.vue'
 import RotateLeft from '@/components/rotate-left.vue'
 import RotateRight from '@/components/rotate-right.vue'
 import Download from '@/components/download.vue'
+import type { ToolType } from './utils'
 
 export interface Props {
   scale: number
@@ -12,12 +13,12 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   scale: 1,
-  index: '1/1'
+  index: '1/1',
 })
-export type OperateType = 'zoom-out' | 'zoom-in' | 'contraRotate' | 'clockwiseRotation' | 'download'
-const emit = defineEmits<{ click: [type: OperateType] }>()
 
-const handleClick = (type: OperateType) => {
+const emit = defineEmits<{ click: [type: ToolType] }>()
+
+const handleClick = (type: ToolType) => {
   emit('click', type)
 }
 </script>
