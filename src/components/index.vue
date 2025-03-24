@@ -44,6 +44,7 @@
           @click="handleToolsClick"
           :scale="getCurrScale"
           :index="getCurrIndex"
+          :layout="props.layout"
         />
       </div>
     </transition>
@@ -71,6 +72,7 @@ export interface Props {
   appendTo?: string | HTMLElement
   showToolbar?: boolean
   enableTeleport?: boolean
+  layout?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -81,6 +83,7 @@ const props = withDefaults(defineProps<Props>(), {
   appendTo: 'body',
   showToolbar: true,
   enableTeleport: false,
+  layout: 'zoomOut, zoomIn, scale, position, rotateLeft, rotateRight, download',
 })
 
 const emit = defineEmits(['update:modelValue'])

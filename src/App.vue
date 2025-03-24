@@ -6,12 +6,16 @@ import FoxPreviewImage from './components/index'
 
 const visible = ref<boolean>(false)
 const visible1 = ref<boolean>(false)
+const visible2 = ref<boolean>(false)
 
 const show = () => {
   visible.value = true
 }
 const show1 = () => {
   visible1.value = true
+}
+const show2 = () => {
+  visible2.value = true
 }
 </script>
 
@@ -30,6 +34,17 @@ const show1 = () => {
         <div class="preview-item-ctx">
           <button class="button" @click="show1">点击查看预览界面-没有切换按钮</button>
           <fox-preview-image v-model="visible1" :src="[a]"></fox-preview-image>
+        </div>
+      </div>
+      <div class="preview-item">
+        <h2>自定义工具栏</h2>
+        <div class="preview-item-ctx">
+          <button class="button" @click="show2">自定义工具栏</button>
+          <fox-preview-image
+            v-model="visible2"
+            :src="[a]"
+            layout="zoomIn, zoomOut, position, scale"
+          ></fox-preview-image>
         </div>
       </div>
     </div>

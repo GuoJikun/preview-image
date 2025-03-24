@@ -44,8 +44,21 @@ Vue.use(foxPreviewImage)
 | initial-index      | 默认显示图片的下标           | `number`          | `0`     |
 | z-index            | 预览窗口的层级-css 的 zIndex | `number`          | `9000`  |
 | showToolbar        | 控制 toolbar 的显示和隐藏    | `boolean`         | `true`  |
+| append-to        | 控制弹窗的插入位置    | `HtmlElement/string`         | -  |
+| enable-teleport     | 启用 teleport 功能     | `boolean`         | `false`  |
+| layout | 启用 teleport 功能 | `string` | `zoomOut,zoomIn,scale,position,rotateLeft,rotateRight,download`|
 
 ## 更新日志
+
+### v3.2.0
+
+功能：
+
+-   增加底部工具栏的可配置化
+
+### v3.1.0
+
+升级了依赖，没有功能更新
 
 ### v2.9.0
 
