@@ -46,7 +46,7 @@ Vue.use(foxPreviewImage)
 | showToolbar        | 控制 toolbar 的显示和隐藏    | `boolean`         | `true`  |
 | append-to        | 控制弹窗的插入位置    | `HtmlElement/string`         | -  |
 | enable-teleport     | 启用 teleport 功能     | `boolean`         | `false`  |
-| layout | 启用 teleport 功能 | `string` | `zoomOut,zoomIn,scale,position,rotateLeft,rotateRight,download`|
+| layout | 工具栏的布局 | `string` | `zoomOut,zoomIn,scale,position,rotateLeft,rotateRight,download`|
 
 ## 更新日志
 
