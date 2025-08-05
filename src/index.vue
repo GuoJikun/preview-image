@@ -1,64 +1,10 @@
-<template>
-  <teleport :to="props.appendTo" :disabled="props.enableTeleport === false">
-    <transition>
-      <div
-        role="dialog"
-        ref="refEl"
-        class="fox-preview"
-        :style="{
-          'z-index': props.zIndex,
-        }"
-        tabindex="1"
-        @keyup.esc.exact="close"
-        v-if="flag"
-      >
-        <div
-          class="fox-preview-canvas"
-          @mousewheel="handleMousewheel"
-          @DOMMouseScroll="handleMousewheel"
-        >
-          <template v-for="(item, i) in uri" :key="i">
-            <div
-              v-if="active === i"
-              @mousemove="handleMouseMove"
-              @mouseup="mouseup"
-              @mousedown="mousedown"
-              :style="{
-                transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)`,
-              }"
-              style="display: inline-block"
-            >
-              <img class="fox-preview-image" :src="item" alt="被拖拽的图片" draggable="false" />
-            </div>
-          </template>
-        </div>
-        <!-- 关闭按钮 -->
-        <div class="fox-preview-close" @click="close">
-          <Close />
-        </div>
-        <!-- 左右切换按钮 -->
-        <Switch v-if="uri && uri.length > 1" @prev="prev" @next="next" />
-        <!-- 工具栏 -->
-        <Toolbar
-          v-if="showToolbar"
-          @click="handleToolsClick"
-          :scale="getCurrScale"
-          :index="getCurrIndex"
-          :layout="props.layout"
-        />
-      </div>
-    </transition>
-  </teleport>
-</template>
-
 <script lang="ts" setup>
-import types from '@/utils/types'
-import Close from '@/components/close.vue'
+import { useThrottleFn } from '@vueuse/core'
+import { computed, onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
+import { Close } from './icons.tsx'
 import Switch from './switch.vue'
 import Toolbar from './toolbar.vue'
-import { watch, onMounted, computed, ref, reactive, onBeforeMount } from 'vue'
-import { useThrottleFn } from '@vueuse/core'
-import { downloadFile, getScrollWidth, type ToolType } from './utils'
+import types, { downloadFile, getScrollWidth, type ToolType } from './utils'
 
 defineOptions({
   name: 'FoxPreviewImage',
@@ -97,7 +43,10 @@ onBeforeMount(() => {
 const refEl = ref(null)
 const flag = ref<boolean>(false)
 const status = ref<number>(0)
-const active = props.src && props.src.length ? ref<number>(props.initialIndex) : ref<number>(0)
+const active =
+  props.src && props.src.length
+    ? ref<number>(props.initialIndex)
+    : ref<number>(0)
 const angle = ref<number>(0)
 const scale = ref<number>(1)
 const cacheX = ref<number>(0)
@@ -151,7 +100,7 @@ const enlarge = () => {
     scale.value += 0.1
   }
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const mousewheel = (ev: any) => {
   requestAnimationFrame(() => {
     const isUp = (ev.wheelDelta || ev.detail * -40) > 0
@@ -194,7 +143,7 @@ const anticlockwiseRotation = () => {
 const downloadImage = () => {
   const cur = uri.value[active.value]
   const tmp = cur.split('/')
-  const downloadName = tmp[tmp.length - 1] as string
+  const downloadName = tmp.at(-1) as string
 
   downloadFile(cur, downloadName)
 }
@@ -233,7 +182,7 @@ const next = () => {
 }
 
 const getCurrScale = computed(() => {
-  return parseFloat(scale.value.toFixed(1))
+  return Number.parseFloat(scale.value.toFixed(1))
 })
 
 const getCurrIndex = computed(() => {
@@ -281,7 +230,7 @@ watch(
       }
       const isScrollBar = hasScrollbar(document.body)
       if (isScrollBar) {
-        document.body.style.paddingRight = getScrollWidth() + 'px'
+        document.body.style.paddingRight = `${getScrollWidth()}px`
         document.body.classList.add('fox-lock-window')
       }
     } else {
@@ -322,68 +271,60 @@ watch(
 )
 </script>
 
-<style lang="scss">
-.fox-preview {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba($color: #000000, $alpha: 0.4);
-  overflow: hidden;
-  backdrop-filter: saturate(50%) blur(4px);
-  &-canvas {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0;
-  }
-  &-image {
-    user-select: none;
-    display: block;
-    pointer-events: none;
-    &:active {
-      cursor: pointer;
-    }
-  }
-  &-close {
-    position: absolute;
-    top: -40px;
-    right: -40px;
-    user-select: none;
-    cursor: pointer;
-    background-color: rgba($color: #000000, $alpha: 0.3);
-    border-radius: 50%;
-    font-size: 26px;
-    height: 80px;
-    width: 80px;
-    color: white;
-    overflow: hidden;
-    transition: background-color 0.15s;
-    z-index: 10;
-    & > svg {
-      position: absolute;
-      left: 15px;
-      bottom: 15px;
-    }
-    &:hover {
-      background-color: rgba($color: #000000, $alpha: 0.5);
-    }
-  }
-}
-.font-svg {
-  user-select: none;
-  font-size: 18px;
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  fill: currentColor;
-  overflow: hidden;
-  font-weight: 500;
-}
-.fox-lock-window {
-  overflow: hidden;
-}
-</style>
+<template>
+  <teleport :to="props.appendTo" :disabled="props.enableTeleport === false">
+    <transition>
+      <div
+        v-if="flag"
+        ref="refEl"
+        role="dialog"
+        class="fox-preview"
+        :style="{
+          'z-index': props.zIndex,
+        }"
+        tabindex="1"
+        @keyup.esc.exact="close"
+      >
+        <div
+          class="fox-preview-canvas"
+          @mousewheel="handleMousewheel"
+          @DOMMouseScroll="handleMousewheel"
+        >
+          <template v-for="(item, i) in uri" :key="i">
+            <div
+              v-if="active === i"
+              :style="{
+                transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)`,
+              }"
+              style="display: inline-block"
+              @mousemove="handleMouseMove"
+              @mouseup="mouseup"
+              @mousedown="mousedown"
+            >
+              <img
+                class="fox-preview-image"
+                :src="item"
+                alt="被拖拽的图片"
+                draggable="false"
+              />
+            </div>
+          </template>
+        </div>
+        <!-- 关闭按钮 -->
+        <div class="fox-preview-close" @click="close">
+          <Close />
+        </div>
+        <!-- 左右切换按钮 -->
+        <Switch v-if="uri && uri.length > 1" @prev="prev" @next="next" />
+        <!-- 工具栏 -->
+        <Toolbar
+          v-if="showToolbar"
+          :scale="getCurrScale"
+          :index="getCurrIndex"
+          :layout="props.layout"
+          @click="handleToolsClick"
+        />
+      </div>
+    </transition>
+  </teleport>
+</template>

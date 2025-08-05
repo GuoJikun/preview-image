@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import ZoomOut from '@/components/zoom-out.vue'
-import ZoomIn from '@/components/zoom-in.vue'
-import RotateLeft from '@/components/rotate-left.vue'
-import RotateRight from '@/components/rotate-right.vue'
-import Download from '@/components/download.vue'
 import type { ToolType } from './utils'
 import { computed } from 'vue'
+import { ZoomOut, ZoomIn, RotateLeft, RotateRight, Download } from './icons.tsx'
 
 export interface Props {
   scale: number
@@ -26,7 +22,6 @@ const handleClick = (type: ToolType) => {
 }
 
 const layouts = computed(() => props.layout.split(',').map((item) => item.trim()))
-console.log(layouts)
 </script>
 
 <template>
@@ -95,69 +90,3 @@ console.log(layouts)
     />
   </div>
 </template>
-
-<style lang="scss">
-.fox-preview-toolbar {
-  position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 30px;
-  z-index: 10;
-  background-color: #606266;
-  display: flex;
-  padding: 8px 24px;
-  gap: 24px;
-  &-item {
-    cursor: pointer;
-    color: white;
-    font-size: 24px;
-  }
-  &-scale {
-    font-size: 14px;
-    position: relative;
-    background-color: #606266;
-    border: 1px solid #ffffff;
-    box-sizing: border-box;
-    width: 34px;
-    border-radius: 1px;
-    line-height: 22px;
-    text-align: center;
-    cursor: unset;
-    &::before,
-    &::after {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      content: '';
-      z-index: 1;
-      border: 1px solid #606266;
-      box-sizing: border-box;
-    }
-    &::before {
-      height: 12px;
-      top: 50%;
-      margin-top: -6px;
-      width: 34px;
-      left: -1px;
-      border-width: 0 1px;
-    }
-    &::after {
-      height: 24px;
-      width: 20px;
-      top: -1px;
-      left: 50%;
-      margin-left: -10px;
-      border-width: 1px 0;
-    }
-  }
-  &-position {
-    font-size: 14px;
-    box-sizing: border-box;
-    width: 24px;
-    line-height: 24px;
-    text-align: center;
-    cursor: default;
-  }
-}
-</style>

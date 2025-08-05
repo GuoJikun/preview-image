@@ -1,0 +1,141 @@
+// @ts-ignore
+// eslint-disable-next-line unused-imports/no-unused-imports
+import { h } from 'vue'
+const ArrowLeft = (): any => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="M609.408 149.376 277.76 489.6a32 32 0 0 0 0 44.672l331.648 340.352a29.12 29.12 0 0 0 41.728 0 30.592 30.592 0 0 0 0-42.752L339.264 511.936l311.872-319.872a30.592 30.592 0 0 0 0-42.688 29.12 29.12 0 0 0-41.728 0z"
+      />
+    </svg>
+  )
+}
+
+const ArrowRight = () => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="M340.864 149.312a30.592 30.592 0 0 0 0 42.752L652.736 512 340.864 831.872a30.592 30.592 0 0 0 0 42.752 29.12 29.12 0 0 0 41.728 0L714.24 534.336a32 32 0 0 0 0-44.672L382.592 149.376a29.12 29.12 0 0 0-41.728 0z"
+      />
+    </svg>
+  )
+}
+
+const Close = () => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"
+      />
+    </svg>
+  )
+}
+
+const Download = () => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64zm384-253.696 236.288-236.352 45.248 45.248L508.8 704 192 387.2l45.248-45.248L480 584.704V128h64v450.304z"
+      />
+    </svg>
+  )
+}
+
+const RotateLeft = () => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="M289.088 296.704h92.992a32 32 0 0 1 0 64H232.96a32 32 0 0 1-32-32V179.712a32 32 0 0 1 64 0v50.56a384 384 0 0 1 643.84 282.88 384 384 0 0 1-383.936 384 384 384 0 0 1-384-384h64a320 320 0 1 0 640 0 320 320 0 0 0-555.712-216.448z"
+      />
+    </svg>
+  )
+}
+
+const RotateRight = () => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="M784.512 230.272v-50.56a32 32 0 1 1 64 0v149.056a32 32 0 0 1-32 32H667.52a32 32 0 1 1 0-64h92.992A320 320 0 1 0 524.8 833.152a320 320 0 0 0 320-320h64a384 384 0 0 1-384 384 384 384 0 0 1-384-384 384 384 0 0 1 643.712-282.88z"
+      />
+    </svg>
+  )
+}
+
+const ZoomIn = () => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="m795.904 750.72 124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704 352 352 0 0 0 0 704zm-32-384v-96a32 32 0 0 1 64 0v96h96a32 32 0 0 1 0 64h-96v96a32 32 0 0 1-64 0v-96h-96a32 32 0 0 1 0-64h96z"
+      />
+    </svg>
+  )
+}
+
+const ZoomOut = () => {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      class="fox-svg-icon"
+      aria-role="button"
+    >
+      <path
+        fill="currentColor"
+        d="m795.904 750.72 124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704 352 352 0 0 0 0 704zM352 448h256a32 32 0 0 1 0 64H352a32 32 0 0 1 0-64z"
+      />
+    </svg>
+  )
+}
+
+export {
+  ArrowLeft,
+  ArrowRight,
+  Close,
+  Download,
+  RotateLeft,
+  RotateRight,
+  ZoomIn,
+  ZoomOut,
+}

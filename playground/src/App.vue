@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import FoxPreviewImage from '../../src/index'
 import a from './assets/a.jpg'
 import b from './assets/logo.png'
-import FoxPreviewImage from './components/index'
+import '../../src/index.scss'
 
 const visible = ref<boolean>(false)
 const visible1 = ref<boolean>(false)
@@ -26,14 +27,20 @@ const show2 = () => {
         <h2>基础用法</h2>
         <div class="preview-item-ctx">
           <button class="button" @click="show">点击查看预览界面</button>
-          <fox-preview-image v-model="visible" :src="[a, b]" :initial-index="1"></fox-preview-image>
+          <fox-preview-image
+            v-model="visible"
+            :src="[a, b]"
+            :initial-index="1"
+          />
         </div>
       </div>
       <div class="preview-item">
         <h2>基础用法-只有一张图片时不显示左右的切换按钮</h2>
         <div class="preview-item-ctx">
-          <button class="button" @click="show1">点击查看预览界面-没有切换按钮</button>
-          <fox-preview-image v-model="visible1" :src="[a]"></fox-preview-image>
+          <button class="button" @click="show1">
+            点击查看预览界面-没有切换按钮
+          </button>
+          <fox-preview-image v-model="visible1" :src="[a]" />
         </div>
       </div>
       <div class="preview-item">
@@ -44,7 +51,7 @@ const show2 = () => {
             v-model="visible2"
             :src="[a]"
             layout="zoomIn, zoomOut, position, scale"
-          ></fox-preview-image>
+          />
         </div>
       </div>
     </div>
