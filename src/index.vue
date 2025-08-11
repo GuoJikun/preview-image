@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useThrottleFn } from '@vueuse/core'
 import { computed, onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
-import { Close } from './icons.tsx'
+import { Close } from './icons'
 import Switch from './switch.vue'
 import Toolbar from './toolbar.vue'
 import types, { downloadFile, getScrollWidth, type ToolType } from './utils'

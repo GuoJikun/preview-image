@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ToolType } from './utils'
 import { computed } from 'vue'
-import { ZoomOut, ZoomIn, RotateLeft, RotateRight, Download } from './icons.tsx'
+import { Download, RotateLeft, RotateRight, ZoomIn, ZoomOut } from './icons'
+import type { ToolType } from './utils'
 
 export interface Props {
   scale: number
@@ -21,70 +21,72 @@ const handleClick = (type: ToolType) => {
   emit('click', type)
 }
 
-const layouts = computed(() => props.layout.split(',').map((item) => item.trim()))
+const layouts = computed(() =>
+  props.layout.split(',').map((item) => item.trim()),
+)
 </script>
 
 <template>
   <div class="fox-preview-toolbar">
     <ZoomOut
+      v-if="layouts.includes('zoomOut')"
       role="button"
       title="缩小"
       class="fox-preview-toolbar-item"
-      v-if="layouts.includes('zoomOut')"
       :style="{ order: layouts.indexOf('zoomOut') }"
       @click="handleClick('zoom-out')"
     />
     <ZoomIn
+      v-if="layouts.includes('zoomIn')"
       role="button"
       title="放大"
       class="fox-preview-toolbar-item"
-      v-if="layouts.includes('zoomIn')"
       :style="{ order: layouts.indexOf('zoomIn') }"
       @click="handleClick('zoom-in')"
     />
 
     <div
+      v-if="layouts.includes('scale')"
       role="button"
       title="缩放倍数"
       tabindex="-1"
       class="fox-preview-toolbar-item fox-preview-toolbar-scale"
-      v-if="layouts.includes('scale')"
       :style="{ order: layouts.indexOf('scale') }"
     >
       {{ props.scale }}
     </div>
 
     <div
+      v-if="layouts.includes('position')"
       role="button"
       title="图片位置"
       class="fox-preview-toolbar-item fox-preview-toolbar-position"
-      v-if="layouts.includes('position')"
       :style="{ order: layouts.indexOf('position') }"
     >
       {{ props.index }}
     </div>
 
     <RotateLeft
+      v-if="layouts.includes('rotateLeft')"
       role="button"
       title="左旋转"
       class="fox-preview-toolbar-item"
-      v-if="layouts.includes('rotateLeft')"
       :style="{ order: layouts.indexOf('rotateLeft') }"
       @click="handleClick('contraRotate')"
     />
     <RotateRight
+      v-if="layouts.includes('rotateRight')"
       role="button"
       title="右旋转"
       class="fox-preview-toolbar-item"
-      v-if="layouts.includes('rotateRight')"
       :style="{ order: layouts.indexOf('rotateRight') }"
       @click="handleClick('clockwiseRotation')"
     />
     <Download
+      v-if="layouts.includes('download')"
       role="button"
       title="下载/保存"
       class="fox-preview-toolbar-item"
-      v-if="layouts.includes('download')"
       :style="{ order: layouts.indexOf('download') }"
       @click="handleClick('download')"
     />

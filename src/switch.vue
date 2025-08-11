@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, ArrowLeft } from './icons.tsx'
+import { ArrowLeft, ArrowRight } from './icons'
 
 const emit = defineEmits<{
   prev: []
@@ -16,7 +16,10 @@ const handleNextClick = () => {
 
 <template>
   <div class="fox-preview-switch">
-    <div class="fox-preview-switch-item fox-preview-switch-item-left" @click="handlePrevClick">
+    <div
+      class="fox-preview-switch-item fox-preview-switch-item-left"
+      @click="handlePrevClick"
+    >
       <ArrowLeft class="fox-preview-switch-icon" />
     </div>
     <div class="fox-preview-switch-item" @click="handleNextClick">
