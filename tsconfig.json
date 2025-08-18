@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "jsx": "preserve",
-    "jsxFactory": "h",
+    "jsxImportSource": "vue",
     "lib": ["es2023"],
     "moduleDetection": "force",
     "module": "preserve",
