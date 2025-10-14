@@ -21,7 +21,7 @@ pnpm add fox-preview-image
 
 ```js
 import foxPreviewImage from 'fox-preview-image'
-import 'fox-preview-image/lib/style.css'
+import 'fox-preview-image/dist/index.css'
 Vue.use(foxPreviewImage)
 ```
 
@@ -49,6 +49,10 @@ Vue.use(foxPreviewImage)
 | layout | 工具栏的布局 | `string` | `zoomOut,zoomIn,scale,position,rotateLeft,rotateRight,download`|
 
 ## 更新日志
+
+### v3.3.0
+
+-   打包工具更改为 tsdown
 
 ### v3.2.0
 
