@@ -1,79 +1,67 @@
 {
-  "name": "fox-preview-image",
-  "version": "3.2.0",
-  "description": "一个支持 vue3 的预览图片组件",
-  "type": "module",
-  "keywords": [
-    "frontend",
-    "previewImage",
-    "preview",
-    "image",
-    "imagePreview",
-    "fox",
-    "preview-image"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/GuoJikun/preview-image",
-  "bugs": {
-    "url": "https://github.com/GuoJikun/preview-image/issues",
-    "email": "guojikun486546@163.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/GuoJikun/preview-image.git"
-  },
-  "files": [
-    "README.md",
-    "lib",
-    "package.json",
-    "types"
-  ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./dist/index.js",
-    "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "lint": "eslint --cache .",
-    "lint:fix": "pnpm run lint --fix",
-    "build": "tsdown",
-    "dev": "tsdown --watch",
-    "play": "vite",
-    "test": "vitest",
-    "typecheck": "vue-tsc --noEmit",
-    "format": "prettier --cache --write .",
-    "release": "bumpp && pnpm publish",
-    "prepublishOnly": "pnpm run build"
-  },
-  "peerDependencies": {
-    "@vueuse/core": ">=11.0.0",
-    "vue": ">=3.0.0"
-  },
-  "devDependencies": {
-    "@sxzz/eslint-config": "^7.1.0",
-    "@sxzz/prettier-config": "^2.2.3",
-    "@types/jsdom": "^21.1.7",
-    "@types/node": "^22.16.5",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vue/test-utils": "^2.4.6",
-    "@vueuse/core": "^13.6.0",
-    "bumpp": "^10.2.0",
-    "eslint": "^9.32.0",
-    "happy-dom": "^18.0.1",
-    "prettier": "^3.6.2",
-    "sass": "^1.89.2",
-    "tsdown": "^0.13.3",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3",
-    "vite": "^7.0.6",
-    "vitest": "^3.2.4",
-    "vue": "^3.5.18",
-    "vue-tsc": "^3.0.4"
-  },
-  "prettier": "@sxzz/prettier-config"
+    "name": "fox-preview-image",
+    "version": "3.3.0",
+    "description": "一个支持 vue3 的预览图片组件",
+    "type": "module",
+    "license": "MIT",
+    "keywords": [
+        "frontend",
+        "previewImage",
+        "preview",
+        "image",
+        "imagePreview",
+        "fox",
+        "preview-image"
+    ],
+    "homepage": "https://github.com/GuoJikun/preview-image",
+    "bugs": {
+        "url": "https://github.com/GuoJikun/preview-image/issues",
+        "email": "guojikun486546@163.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GuoJikun/preview-image.git"
+    },
+    "author": "GuoJiKun <guojikun486546@163.com>",
+    "files": [
+        "dist",
+        "package.json"
+    ],
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": "./dist/index.js",
+        "./package.json": "./package.json"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "build": "tsdown",
+        "dev": "tsdown --watch",
+        "play": "vite",
+        "typecheck": "vue-tsc --noEmit",
+        "release": "bumpp && pnpm publish",
+        "prepublishOnly": "pnpm run build"
+    },
+    "peerDependencies": {
+        "vue": "^3.0.0"
+    },
+    "devDependencies": {
+        "@types/jsdom": "^27.0.0",
+        "@types/node": "^24.7.2",
+        "@vitejs/plugin-vue": "^6.0.1",
+        "@vue/test-utils": "^2.4.6",
+        "@vueuse/core": "^13.9.0",
+        "bumpp": "^10.3.1",
+        "happy-dom": "^20.0.0",
+        "sass": "^1.93.2",
+        "tsdown": "^0.15.6",
+        "typescript": "^5.9.3",
+        "vite": "npm:rolldown-vite@^7.1.16",
+        "vitest": "^3.2.4",
+        "vue": "^3.5.22",
+        "vue-tsc": "^3.1.1"
+    }
 }
