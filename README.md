@@ -20,15 +20,18 @@ pnpm add fox-preview-image
 ## 引入组件
 
 ```js
-import foxPreviewImage from 'fox-preview-image'
-import 'fox-preview-image/index.css'
-Vue.use(foxPreviewImage)
+import foxPreviewImage from "fox-preview-image";
+import "fox-preview-image/index.css";
+Vue.use(foxPreviewImage);
 ```
 
 ## 基础使用
 
 ```html
-<fox-preview-image v-model="visiable" :src="imageSrc" z-index="9000"></fox-preview-image>
+<fox-preview-image
+    v-model="visiable"
+    :src="imageSrc"
+    z-index="9000"></fox-preview-image>
 ```
 
 ## 演示地址
@@ -37,32 +40,37 @@ Vue.use(foxPreviewImage)
 
 ## API
 
-| 属性               | 说明                         | 参数类型          | 默认值  |
-| ------------------ | :--------------------------- | :---------------- | :------ |
-| src                | 预览图片的地址               | `string/string[]` | -       |
-| modelValue/v-model | 是否显示预览窗口             | `boolean`         | `false` |
-| initial-index      | 默认显示图片的下标           | `number`          | `0`     |
-| z-index            | 预览窗口的层级-css 的 zIndex | `number`          | `9000`  |
-| showToolbar        | 控制 toolbar 的显示和隐藏    | `boolean`         | `true`  |
-| append-to        | 控制弹窗的插入位置    | `HtmlElement/string`         | -  |
-| enable-teleport     | 启用 teleport 功能     | `boolean`         | `false`  |
-| layout | 工具栏的布局 | `string` | `zoomOut,zoomIn,scale,position,rotateLeft,rotateRight,download`|
+| 属性               | 说明                         | 参数类型             | 默认值                                                          |
+| ------------------ | :--------------------------- | :------------------- | :-------------------------------------------------------------- |
+| src                | 预览图片的地址               | `string/string[]`    | -                                                               |
+| modelValue/v-model | 是否显示预览窗口             | `boolean`            | `false`                                                         |
+| initial-index      | 默认显示图片的下标           | `number`             | `0`                                                             |
+| z-index            | 预览窗口的层级-css 的 zIndex | `number`             | `9000`                                                          |
+| showToolbar        | 控制 toolbar 的显示和隐藏    | `boolean`            | `true`                                                          |
+| append-to          | 控制弹窗的插入位置           | `HtmlElement/string` | -                                                               |
+| enable-teleport    | 启用 teleport 功能           | `boolean`            | `false`                                                         |
+| layout             | 工具栏的布局                 | `string`             | `zoomOut,zoomIn,scale,position,rotateLeft,rotateRight,download` |
 
 ## 更新日志
 
+### v3.4.0
+
+- 修复图片旋转后的拖拽问题
+- 增加左右箭头切换图片的功能
+
 ### v3.3.1
 
--   修复 css 导入失败
+- 修复 css 导入失败
 
 ### v3.3.0
 
--   打包工具更改为 tsdown
+- 打包工具更改为 tsdown
 
 ### v3.2.0
 
 功能：
 
--   增加底部工具栏的可配置化
+- 增加底部工具栏的可配置化
 
 ### v3.1.0
 
@@ -72,91 +80,91 @@ Vue.use(foxPreviewImage)
 
 Feat：
 
--   增加 `showToolbar` 属性，用于控制工具栏的显示和隐藏
--   移除了容器的圆角属性
+- 增加 `showToolbar` 属性，用于控制工具栏的显示和隐藏
+- 移除了容器的圆角属性
 
 Refactor:
 
--   重构了代码，将重复代码替换为函数
--   移除了 console 语句
+- 重构了代码，将重复代码替换为函数
+- 移除了 console 语句
 
 ### v2.8.0
 
 Feat：
 
--   更改打包后文件的格式,es 格式文件后缀改为 `.mjs`
+- 更改打包后文件的格式,es 格式文件后缀改为 `.mjs`
 
 ### v2.6.0
 
 Feat:
 
--   增加下载功能
--   统一 icon
+- 增加下载功能
+- 统一 icon
 
 ### v2.4.1
 
 Fix:
 
--   修复 css 导入错误
+- 修复 css 导入错误
 
 ### v2.4.0
 
 Feat:
 
--   增加默认显示第几张图片的功能
+- 增加默认显示第几张图片的功能
 
 ### v2.3.0
 
 Feat:
 
--   增加显示当前图片下标的功能(仅在多图下显示)
+- 增加显示当前图片下标的功能(仅在多图下显示)
 
 ### v2.0.0
 
 Feat:
 
--   增加 vue3 支持（安装：npm i fox-preview-image@next）
+- 增加 vue3 支持（安装：npm i fox-preview-image@next）
 
 ### v1.1.3
 
 Refactor:
 
--   删除冗余代码
+- 删除冗余代码
 
 ### v1.1.2
 
 Fix：
 
--   修复火狐浏览器拖拽失效的问题
+- 修复火狐浏览器拖拽失效的问题
 
 ### v1.1.1
 
 Feat：
 
--   支持鼠标滚轮放大缩小
+- 支持鼠标滚轮放大缩小
 
 ### v1.1.0
 
 feat：
 
--   增加缩放倍数显示
+- 增加缩放倍数显示
 
 ### v1.0.2
 
 Fix:
 
--   修复当预览的图片为 1 张时扔显示左右切换按钮的问题
+- 修复当预览的图片为 1 张时扔显示左右切换按钮的问题
 
 ### v1.0.1
 
 Fix:
 
--   修复拖拽时图片未完全跟随鼠标的 bug
+- 修复拖拽时图片未完全跟随鼠标的 bug
 
 ### v1.0.0
 
 Feat:
 
--   旋转
--   放大，缩小（0.5-2）
--   多张图片可以传数组 eg：['http://xxxx.com/a.png','http://xxxx.com/b.png']
+- 旋转
+- 放大，缩小（0.5-2）
+- 多张图片可以传数组 eg：['http://xxxx.com/a.png','http://xxxx.com/b.png']']
