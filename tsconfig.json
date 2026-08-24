@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "target": "esnext",
-        "lib": ["es2023"],
+        "lib": ["es2023", "dom", "dom.iterable"],
         "moduleDetection": "force",
         "module": "preserve",
         "moduleResolution": "bundler",
         "resolveJsonModule": true,
-        "types": ["node", "jsdom"],
+        "types": ["node"],
         "strict": true,
         "noUnusedLocals": true,
         "declaration": true,

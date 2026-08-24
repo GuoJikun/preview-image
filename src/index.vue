@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useThrottleFn } from "@vueuse/core";
-import { computed, onBeforeMount, onMounted, reactive, ref, watch } from "vue";
+import { computed, nextTick, onUnmounted, ref, watch } from "vue";
 import { Close } from "./icons";
 import Switch from "./switch.vue";
 import Toolbar from "./toolbar.vue";
@@ -36,52 +35,73 @@ const emit = defineEmits(["update:modelValue"]);
 
 let bodyStyleCache = "";
 
-onBeforeMount(() => {
-    bodyStyleCache = document.body.style.cssText;
-});
-
-const refEl = ref(null);
+const refEl = ref<HTMLElement | null>(null);
 const flag = ref<boolean>(false);
-const status = ref<number>(0);
-const active =
-    props.src && props.src.length
-        ? ref<number>(props.initialIndex)
-        : ref<number>(0);
+const active = ref<number>(props.initialIndex);
 const angle = ref<number>(0);
 const scale = ref<number>(1);
-const cacheX = ref<number>(0);
-const cacheY = ref<number>(0);
 const x = ref<number>(0);
 const y = ref<number>(0);
 const uri = ref<Array<string>>([]);
-let startLocation = reactive({
-    x: 0,
-    y: 0,
-});
 
-const init = () => {
-    flag.value = props.modelValue;
-};
 const close = () => {
     flag.value = false;
     emit("update:modelValue", flag.value);
 };
 
-const move = (e: MouseEvent) => {
-    if (status.value !== 1) {
-        return;
-    }
+/**
+ * 拖拽：增量位移 + 拖拽期间在 window 上监听，鼠标移出图片区域也不会丢失拖拽状态
+ */
+const dragging = ref<boolean>(false);
+let startX = 0;
+let startY = 0;
 
-    const { x: mouseX, y: mouseY } = e;
+const updatePosition = (clientX: number, clientY: number) => {
+    x.value += clientX - startX;
+    y.value += clientY - startY;
+    startX = clientX;
+    startY = clientY;
+};
 
-    // 鼠标的移动距离
-    const mvX = mouseX - startLocation.x;
-    const mvY = mouseY - startLocation.y;
-    x.value = mvX + x.value - cacheX.value;
-    y.value = mvY + y.value - cacheY.value;
+const mousemove = (e: MouseEvent) => {
+    if (!dragging.value) return;
+    updatePosition(e.clientX, e.clientY);
+};
 
-    cacheX.value = mvX;
-    cacheY.value = mvY;
+const touchmove = (e: TouchEvent) => {
+    const touch = e.touches[0];
+    if (!dragging.value || !touch) return;
+    updatePosition(touch.clientX, touch.clientY);
+};
+
+const mouseup = () => {
+    dragging.value = false;
+    window.removeEventListener("mousemove", mousemove);
+    window.removeEventListener("mouseup", mouseup);
+};
+
+const mousedown = (e: MouseEvent) => {
+    dragging.value = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    window.addEventListener("mousemove", mousemove);
+    window.addEventListener("mouseup", mouseup);
+};
+
+const touchend = () => {
+    dragging.value = false;
+    window.removeEventListener("touchmove", touchmove);
+    window.removeEventListener("touchend", touchend);
+};
+
+const touchstart = (e: TouchEvent) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    dragging.value = true;
+    startX = touch.clientX;
+    startY = touch.clientY;
+    window.addEventListener("touchmove", touchmove, { passive: true });
+    window.addEventListener("touchend", touchend);
 };
 
 /**
@@ -101,28 +121,22 @@ const enlarge = () => {
     }
 };
 
-const mousewheel = (ev: any) => {
-    requestAnimationFrame(() => {
-        const isUp = (ev.wheelDelta || ev.detail * -40) > 0;
-        if (isUp) {
-            enlarge();
-        } else {
-            zoomOut();
-        }
-    });
-};
+// 累积滚轮增量，兼容鼠标滚轮与触控板惯性滚动
+let wheelDeltaAcc = 0;
+const WHEEL_THRESHOLD = 100;
 
-const handleMouseMove = useThrottleFn(move, 10);
-const handleMousewheel = useThrottleFn(mousewheel, 10);
+const mousewheel = (ev: WheelEvent) => {
+    const delta =
+        ev.deltaMode === ev.DOM_DELTA_LINE ? ev.deltaY * 33 : ev.deltaY;
+    wheelDeltaAcc += delta;
+    if (Math.abs(wheelDeltaAcc) < WHEEL_THRESHOLD) return;
 
-const mouseup = () => {
-    status.value = 0;
-    cacheX.value = 0;
-    cacheY.value = 0;
-};
-const mousedown = (e: MouseEvent) => {
-    status.value = 1;
-    startLocation = { x: e.x, y: e.y };
+    if (wheelDeltaAcc > 0) {
+        zoomOut();
+    } else {
+        enlarge();
+    }
+    wheelDeltaAcc = 0;
 };
 
 /**
@@ -141,11 +155,11 @@ const anticlockwiseRotation = () => {
 /**下载图片 */
 
 const downloadImage = () => {
-    const cur = uri.value[active.value];
-    const tmp = cur.split("/");
-    const downloadName = tmp.at(-1) as string;
+    const url = uri.value[active.value];
+    if (!url) return;
+    const name = url.split("/").pop()?.split(/[?#]/)[0] || "image";
 
-    downloadFile(cur, downloadName);
+    downloadFile(url, name);
 };
 
 const initConf = () => {
@@ -153,32 +167,48 @@ const initConf = () => {
     scale.value = 1;
     x.value = 0;
     y.value = 0;
-    startLocation.x = 0;
-    startLocation.y = 0;
-    cacheX.value = 0;
-    cacheY.value = 0;
+    startX = 0;
+    startY = 0;
 };
 
 // 上一张图片
 const prev = () => {
-    const len = uri.value.length || 0;
+    if (uri.value.length < 2) return;
     if (active.value > 0) {
         active.value--;
     } else {
-        active.value = len - 1;
+        active.value = uri.value.length - 1;
     }
     initConf();
 };
 // 下一张图片
 const next = () => {
-    const len = uri.value.length || 0;
-    if (active.value < len - 1) {
+    if (uri.value.length < 2) return;
+    if (active.value < uri.value.length - 1) {
         active.value++;
     } else {
         active.value = 0;
     }
-
     initConf();
+};
+
+/**
+ * 键盘操作：监听在 window 上，不依赖弹窗持有焦点
+ * （点击图片/工具栏后焦点会落到 body，元素级监听会失效）
+ */
+const onKeyup = (e: KeyboardEvent) => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    switch (e.key) {
+        case "Escape":
+            close();
+            break;
+        case "ArrowLeft":
+            prev();
+            break;
+        case "ArrowRight":
+            next();
+            break;
+    }
 };
 
 const getCurrScale = computed(() => {
@@ -187,6 +217,14 @@ const getCurrScale = computed(() => {
 
 const getCurrIndex = computed(() => {
     return `${active.value + 1}/${uri.value.length}`;
+});
+
+const currentSrc = computed(() => uri.value[active.value]);
+
+// translate 必须放在最外层（CSS transform 从右往左应用），
+// 否则拖拽位移会被旋转/缩放矩阵变换，导致旋转后拖动方向与鼠标不一致
+const transformStyle = computed(() => {
+    return `translate(${x.value}px, ${y.value}px) rotate(${angle.value}deg) scale(${scale.value})`;
 });
 
 const handleToolsClick = (type: ToolType) => {
@@ -209,15 +247,11 @@ const handleToolsClick = (type: ToolType) => {
     }
 };
 
-onMounted(() => {
-    init();
-});
-
-const hasScrollbar = (el: HTMLElement) => {
-    if (el.scrollHeight > window.innerHeight) {
-        return true;
-    }
-    return false;
+// 根滚动条绘制在所有元素之上，必须检测真实滚动容器（scrollingElement）并加锁，
+// 否则残留的页面滚动条会盖住贴边的关闭按钮
+const hasScrollbar = () => {
+    const scroller = document.scrollingElement ?? document.documentElement;
+    return scroller.scrollHeight > scroller.clientHeight;
 };
 
 watch(
@@ -225,15 +259,19 @@ watch(
     (val) => {
         flag.value = val;
         if (val) {
-            if (refEl.value !== null) {
-                (refEl.value as HTMLElement).focus();
-            }
-            const isScrollBar = hasScrollbar(document.body);
-            if (isScrollBar) {
+            // 打开前快照 body 样式，避免覆盖挂载后其他组件对 body 的修改
+            bodyStyleCache = document.body.style.cssText;
+            // v-if 的 DOM 此刻尚未渲染，必须等 nextTick 后再聚焦
+            nextTick(() => refEl.value?.focus());
+            window.addEventListener("keyup", onKeyup);
+            if (hasScrollbar()) {
                 document.body.style.paddingRight = `${getScrollWidth()}px`;
+                document.documentElement.classList.add("fox-lock-window");
                 document.body.classList.add("fox-lock-window");
             }
         } else {
+            window.removeEventListener("keyup", onKeyup);
+            document.documentElement.classList.remove("fox-lock-window");
             document.body.classList.remove("fox-lock-window");
             if (bodyStyleCache) {
                 document.body.style.cssText = bodyStyleCache;
@@ -241,7 +279,8 @@ watch(
                 document.body.removeAttribute("style");
             }
         }
-    }
+    },
+    { immediate: true }
 );
 
 watch(
@@ -269,10 +308,16 @@ watch(
         immediate: true,
     }
 );
+
+onUnmounted(() => {
+    window.removeEventListener("keyup", onKeyup);
+    mouseup();
+    touchend();
+});
 </script>
 
 <template>
-    <teleport :to="props.appendTo" :disabled="props.enableTeleport === false">
+    <teleport :to="props.appendTo" :disabled="!props.enableTeleport">
         <transition>
             <div
                 v-if="flag"
@@ -282,29 +327,25 @@ watch(
                 :style="{
                     'z-index': props.zIndex,
                 }"
-                tabindex="1"
-                @keyup.esc.exact="close">
+                tabindex="0">
                 <div
                     class="fox-preview-canvas"
-                    @mousewheel="handleMousewheel"
-                    @DOMMouseScroll="handleMousewheel">
-                    <template v-for="(item, i) in uri" :key="i">
-                        <div
-                            v-if="active === i"
-                            :style="{
-                                transform: `rotate(${angle}deg) scale(${scale}) translate(${x}px,${y}px)`,
-                            }"
-                            style="display: inline-block"
-                            @mousemove="handleMouseMove"
-                            @mouseup="mouseup"
-                            @mousedown="mousedown">
-                            <img
-                                class="fox-preview-image"
-                                :src="item"
-                                alt="被拖拽的图片"
-                                draggable="false" />
-                        </div>
-                    </template>
+                    @wheel.passive="mousewheel">
+                    <div
+                        v-if="currentSrc"
+                        :style="{
+                            transform: transformStyle,
+                            display: 'inline-block',
+                        }"
+                        @mousedown="mousedown"
+                        @touchstart.passive="touchstart">
+                        <img
+                            :key="active"
+                            class="fox-preview-image"
+                            :src="currentSrc"
+                            alt="被拖拽的图片"
+                            draggable="false" />
+                    </div>
                 </div>
                 <!-- 关闭按钮 -->
                 <div class="fox-preview-close" @click="close">

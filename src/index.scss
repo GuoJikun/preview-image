@@ -1,6 +1,8 @@
+// fixed 定位下 100% 基于视口且不含根滚动条区域，
+// 避免用 100vw 时遮罩伸进滚动条下方、盖住关闭按钮
 .fox-preview {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     position: fixed;
     top: 0;
     left: 0;
@@ -8,20 +10,18 @@
     overflow: hidden;
     backdrop-filter: saturate(50%) blur(4px);
     &-canvas {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 0;
+        touch-action: none;
     }
     &-image {
         user-select: none;
         display: block;
         pointer-events: none;
-        &:active {
-            cursor: pointer;
-        }
     }
     &-close {
         position: absolute;
@@ -50,7 +50,7 @@
 }
 
 .fox-lock-window {
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
 .fox-svg-icon {
