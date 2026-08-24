@@ -202,8 +202,10 @@ const getCurrIndex = computed(() => {
 
 const currentSrc = computed(() => uri.value[active.value]);
 
+// translate 必须放在最外层（CSS transform 从右往左应用），
+// 否则拖拽位移会被旋转/缩放矩阵变换，导致旋转后拖动方向与鼠标不一致
 const transformStyle = computed(() => {
-    return `rotate(${angle.value}deg) scale(${scale.value}) translate(${x.value}px, ${y.value}px)`;
+    return `translate(${x.value}px, ${y.value}px) rotate(${angle.value}deg) scale(${scale.value})`;
 });
 
 const handleToolsClick = (type: ToolType) => {
