@@ -1,4 +1,5 @@
 import PreviewImage from "./index.vue";
+import "./index.scss";
 import type { App } from "vue";
 
 PreviewImage.install = (app: App) => {
