@@ -8,19 +8,21 @@ on:
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
+    # OIDC 可信发布：无需 NPM_TOKEN，通过临时身份令牌向 npm 认证
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - name: setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 24.12
           registry-url: https://registry.npmjs.org/
           cache: pnpm
+      # node 24 自带的 npm >= 11.5.1，已支持 OIDC 可信发布
       - run: pnpm i
       - run: pnpm build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - run: npm publish --provenance
