@@ -2,8 +2,8 @@ name: 发布npm包
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - "v*"
 
 jobs:
   publish-npm:
@@ -13,6 +13,16 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+      # 防止 tag 打错：必须与 package.json 的 version 一致才允许发布
+      - name: 校验 tag 与 package.json 版本一致
+        run: |
+          node -e "
+            const pkg = require('./package.json');
+            if ('v' + pkg.version !== process.env.GITHUB_REF_NAME) {
+              console.error('tag ' + process.env.GITHUB_REF_NAME + ' 与 package.json 版本 v' + pkg.version + ' 不一致');
+              process.exit(1);
+            }
+          "
       - name: setup pnpm
         uses: pnpm/action-setup@v4
         with:
