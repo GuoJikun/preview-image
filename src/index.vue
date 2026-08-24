@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onUnmounted, ref, watch } from "vue";
 import { Close } from "./icons";
 import Switch from "./switch.vue";
 import Toolbar from "./toolbar.vue";
@@ -192,6 +192,25 @@ const next = () => {
     initConf();
 };
 
+/**
+ * 键盘操作：监听在 window 上，不依赖弹窗持有焦点
+ * （点击图片/工具栏后焦点会落到 body，元素级监听会失效）
+ */
+const onKeyup = (e: KeyboardEvent) => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    switch (e.key) {
+        case "Escape":
+            close();
+            break;
+        case "ArrowLeft":
+            prev();
+            break;
+        case "ArrowRight":
+            next();
+            break;
+    }
+};
+
 const getCurrScale = computed(() => {
     return Number.parseFloat(scale.value.toFixed(1));
 });
@@ -242,15 +261,16 @@ watch(
         if (val) {
             // 打开前快照 body 样式，避免覆盖挂载后其他组件对 body 的修改
             bodyStyleCache = document.body.style.cssText;
-            if (refEl.value !== null) {
-                refEl.value.focus();
-            }
+            // v-if 的 DOM 此刻尚未渲染，必须等 nextTick 后再聚焦
+            nextTick(() => refEl.value?.focus());
+            window.addEventListener("keyup", onKeyup);
             if (hasScrollbar()) {
                 document.body.style.paddingRight = `${getScrollWidth()}px`;
                 document.documentElement.classList.add("fox-lock-window");
                 document.body.classList.add("fox-lock-window");
             }
         } else {
+            window.removeEventListener("keyup", onKeyup);
             document.documentElement.classList.remove("fox-lock-window");
             document.body.classList.remove("fox-lock-window");
             if (bodyStyleCache) {
@@ -290,6 +310,7 @@ watch(
 );
 
 onUnmounted(() => {
+    window.removeEventListener("keyup", onKeyup);
     mouseup();
     touchend();
 });
@@ -306,10 +327,7 @@ onUnmounted(() => {
                 :style="{
                     'z-index': props.zIndex,
                 }"
-                tabindex="0"
-                @keyup.esc.exact="close"
-                @keyup.left.exact="prev"
-                @keyup.right.exact="next">
+                tabindex="0">
                 <div
                     class="fox-preview-canvas"
                     @wheel.passive="mousewheel">
