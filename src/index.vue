@@ -34,6 +34,9 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(["update:modelValue"]);
 
 let bodyStyleCache = "";
+let isKeyupListening = false;
+let isDragListening = false;
+const DRAG_TOUCH_OPTIONS = { passive: true } as AddEventListenerOptions;
 
 const refEl = ref<HTMLElement | null>(null);
 const flag = ref<boolean>(false);
@@ -45,6 +48,7 @@ const y = ref<number>(0);
 const uri = ref<Array<string>>([]);
 
 const close = () => {
+    cleanupDragListeners();
     flag.value = false;
     emit("update:modelValue", flag.value);
 };
@@ -55,6 +59,16 @@ const close = () => {
 const dragging = ref<boolean>(false);
 let startX = 0;
 let startY = 0;
+
+const resetTransformState = () => {
+    angle.value = 0;
+    scale.value = 1;
+    x.value = 0;
+    y.value = 0;
+    startX = 0;
+    startY = 0;
+    dragging.value = false;
+};
 
 const updatePosition = (clientX: number, clientY: number) => {
     x.value += clientX - startX;
@@ -74,24 +88,38 @@ const touchmove = (e: TouchEvent) => {
     updatePosition(touch.clientX, touch.clientY);
 };
 
-const mouseup = () => {
-    dragging.value = false;
+const cleanupDragListeners = () => {
+    if (!isDragListening) return;
     window.removeEventListener("mousemove", mousemove);
     window.removeEventListener("mouseup", mouseup);
+    window.removeEventListener("touchmove", touchmove);
+    window.removeEventListener("touchend", touchend);
+    dragging.value = false;
+    isDragListening = false;
+};
+
+const mouseup = () => {
+    cleanupDragListeners();
+};
+
+const bindDragListeners = () => {
+    if (isDragListening) return;
+    window.addEventListener("mousemove", mousemove);
+    window.addEventListener("mouseup", mouseup);
+    window.addEventListener("touchmove", touchmove, DRAG_TOUCH_OPTIONS);
+    window.addEventListener("touchend", touchend);
+    isDragListening = true;
 };
 
 const mousedown = (e: MouseEvent) => {
     dragging.value = true;
     startX = e.clientX;
     startY = e.clientY;
-    window.addEventListener("mousemove", mousemove);
-    window.addEventListener("mouseup", mouseup);
+    bindDragListeners();
 };
 
 const touchend = () => {
-    dragging.value = false;
-    window.removeEventListener("touchmove", touchmove);
-    window.removeEventListener("touchend", touchend);
+    cleanupDragListeners();
 };
 
 const touchstart = (e: TouchEvent) => {
@@ -100,8 +128,7 @@ const touchstart = (e: TouchEvent) => {
     dragging.value = true;
     startX = touch.clientX;
     startY = touch.clientY;
-    window.addEventListener("touchmove", touchmove, { passive: true });
-    window.addEventListener("touchend", touchend);
+    bindDragListeners();
 };
 
 /**
@@ -163,12 +190,7 @@ const downloadImage = () => {
 };
 
 const initConf = () => {
-    angle.value = 0;
-    scale.value = 1;
-    x.value = 0;
-    y.value = 0;
-    startX = 0;
-    startY = 0;
+    resetTransformState();
 };
 
 // 上一张图片
@@ -209,6 +231,18 @@ const onKeyup = (e: KeyboardEvent) => {
             next();
             break;
     }
+};
+
+const bindKeyupListener = () => {
+    if (isKeyupListening) return;
+    window.addEventListener("keyup", onKeyup);
+    isKeyupListening = true;
+};
+
+const cleanupKeyupListener = () => {
+    if (!isKeyupListening) return;
+    window.removeEventListener("keyup", onKeyup);
+    isKeyupListening = false;
 };
 
 const getCurrScale = computed(() => {
@@ -261,16 +295,18 @@ watch(
         if (val) {
             // 打开前快照 body 样式，避免覆盖挂载后其他组件对 body 的修改
             bodyStyleCache = document.body.style.cssText;
+            cleanPreviewState();
             // v-if 的 DOM 此刻尚未渲染，必须等 nextTick 后再聚焦
             nextTick(() => refEl.value?.focus());
-            window.addEventListener("keyup", onKeyup);
+            bindKeyupListener();
             if (hasScrollbar()) {
                 document.body.style.paddingRight = `${getScrollWidth()}px`;
                 document.documentElement.classList.add("fox-lock-window");
                 document.body.classList.add("fox-lock-window");
             }
         } else {
-            window.removeEventListener("keyup", onKeyup);
+            cleanupKeyupListener();
+            cleanupDragListeners();
             document.documentElement.classList.remove("fox-lock-window");
             document.body.classList.remove("fox-lock-window");
             if (bodyStyleCache) {
@@ -278,9 +314,10 @@ watch(
             } else {
                 document.body.removeAttribute("style");
             }
+            resetTransformState();
         }
     },
-    { immediate: true }
+    { immediate: true },
 );
 
 watch(
@@ -306,13 +343,17 @@ watch(
     },
     {
         immediate: true,
-    }
+    },
 );
 
+const cleanPreviewState = () => {
+    cleanupDragListeners();
+    resetTransformState();
+};
+
 onUnmounted(() => {
-    window.removeEventListener("keyup", onKeyup);
-    mouseup();
-    touchend();
+    cleanupKeyupListener();
+    cleanupDragListeners();
 });
 </script>
 
@@ -328,9 +369,7 @@ onUnmounted(() => {
                     'z-index': props.zIndex,
                 }"
                 tabindex="0">
-                <div
-                    class="fox-preview-canvas"
-                    @wheel.passive="mousewheel">
+                <div class="fox-preview-canvas" @wheel.passive="mousewheel">
                     <div
                         v-if="currentSrc"
                         :style="{
