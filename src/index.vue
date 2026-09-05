@@ -250,6 +250,8 @@ onUnmounted(() => {
                 v-if="isVisible"
                 ref="dialogRef"
                 role="dialog"
+                aria-modal="true"
+                aria-label="图片预览"
                 class="fox-preview"
                 :style="{
                     'z-index': props.zIndex,
@@ -273,7 +275,14 @@ onUnmounted(() => {
                     </div>
                 </div>
                 <!-- 关闭按钮 -->
-                <div class="fox-preview-close" @click="close">
+                <div
+                    class="fox-preview-close"
+                    role="button"
+                    tabindex="0"
+                    aria-label="关闭图片预览"
+                    @click="close"
+                    @keydown.enter.prevent="close"
+                    @keydown.space.prevent="close">
                     <Close />
                 </div>
                 <!-- 左右切换按钮 -->
