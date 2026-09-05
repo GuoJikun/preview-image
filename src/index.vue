@@ -17,7 +17,7 @@ export interface Props {
     initialIndex?: number;
     appendTo?: string | HTMLElement;
     showToolbar?: boolean;
-    enableTeleport?: boolean;
+    teleport?: boolean;
     layout?: string;
 }
 
@@ -39,16 +39,16 @@ let isKeyupListening = false;
 let isDragListening = false;
 const DRAG_TOUCH_OPTIONS = { passive: true } as AddEventListenerOptions;
 
-const refEl = ref<HTMLElement | null>(null);
-const flag = ref<boolean>(false);
+const dialogRef = ref<HTMLElement | null>(null);
+const isVisible = ref<boolean>(false);
 const previewState = usePreviewImageState(props.initialIndex);
 const {
     active,
-    uri,
-    getCurrScale,
-    getCurrIndex,
-    currentSrc,
-    transformStyle,
+    imageUrls,
+    currentScale,
+    currentIndexText,
+    currentImageSrc,
+    imageTransformStyle,
     resetTransformState,
     mousemove,
     touchmove,
@@ -68,8 +68,8 @@ const {
 
 const close = () => {
     cleanupDragListeners();
-    flag.value = false;
-    emit("update:modelValue", flag.value);
+    isVisible.value = false;
+    emit("update:modelValue", isVisible.value);
 };
 
 const cleanupDragListeners = () => {
@@ -100,21 +100,20 @@ const handleTouchStart = (e: TouchEvent) => {
     bindDragListeners();
 };
 
-/**下载图片 */
-
+/** 下载图片 */
 const downloadImage = () => {
-    const url = uri.value[active.value];
+    const url = imageUrls.value[active.value];
     if (!url) return;
     const name = url.split("/").pop()?.split(/[?#]/)[0] || "image";
 
     downloadFile(url, name);
 };
 
-// 上一张图�?
-// 下一张图�?
+// 上一张图片
+// 下一张图片
 /**
- * 键盘操作：监听在 window 上，不依赖弹窗持有焦�?
- * （点击图�?工具栏后焦点会落�?body，元素级监听会失效）
+ * 键盘操作：监听在 window 上，不依赖弹窗持有焦点
+ * （点击图片或工具栏后焦点会落到 body，元素级监听会失效）
  */
 const onKeyup = (e: KeyboardEvent) => {
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
@@ -146,8 +145,8 @@ const cleanupKeyupListener = () => {
     isKeyupListening = false;
 };
 
-// translate 必须放在最外层（CSS transform 从右往左应用）�?
-// 否则拖拽位移会被旋转/缩放矩阵变换，导致旋转后拖动方向与鼠标不一�?
+// translate 必须放在最外层（CSS transform 从右往左应用），
+// 否则拖拽位移会被旋转/缩放矩阵变换，导致旋转后拖动方向与鼠标不一致
 const handleToolsClick = (type: ToolType) => {
     switch (type) {
         case "zoom-out":
@@ -168,7 +167,7 @@ const handleToolsClick = (type: ToolType) => {
     }
 };
 
-// 根滚动条绘制在所有元素之上，必须检测真实滚动容器（scrollingElement）并加锁�?
+// 根滚动条绘制在所有元素之上，必须检测真实滚动容器（scrollingElement）并加锁，
 // 否则残留的页面滚动条会盖住贴边的关闭按钮
 const hasScrollbar = () => {
     const scroller = document.scrollingElement ?? document.documentElement;
@@ -178,13 +177,13 @@ const hasScrollbar = () => {
 watch(
     () => props.modelValue,
     (val) => {
-        flag.value = val;
+        isVisible.value = val;
         if (val) {
-            // 打开前快�?body 样式，避免覆盖挂载后其他组件�?body 的修�?
+            // 打开前快照 body 样式，避免覆盖挂载后其他组件对 body 的修改
             bodyStyleCache = document.body.style.cssText;
             cleanPreviewState();
-            // v-if �?DOM 此刻尚未渲染，必须等 nextTick 后再聚焦
-            nextTick(() => refEl.value?.focus());
+            // v-if 的 DOM 此刻尚未渲染，必须等 nextTick 后再聚焦
+            nextTick(() => dialogRef.value?.focus());
             bindKeyupListener();
             if (hasScrollbar()) {
                 document.body.style.paddingRight = `${getScrollWidth()}px`;
@@ -216,7 +215,7 @@ watch(
 
             initConf();
 
-            uri.value = [val as string];
+            imageUrls.value = [val as string];
         } else if (type === "array") {
             if (props.initialIndex >= 0 && props.initialIndex < val.length) {
                 active.value = props.initialIndex;
@@ -225,7 +224,7 @@ watch(
             }
 
             initConf();
-            uri.value = val as string[];
+            imageUrls.value = val as string[];
         }
     },
     {
@@ -245,11 +244,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <teleport :to="props.appendTo" :disabled="!props.enableTeleport">
+    <teleport :to="props.appendTo" :disabled="!props.teleport">
         <transition>
             <div
-                v-if="flag"
-                ref="refEl"
+                v-if="isVisible"
+                ref="dialogRef"
                 role="dialog"
                 class="fox-preview"
                 :style="{
@@ -258,9 +257,9 @@ onUnmounted(() => {
                 tabindex="0">
                 <div class="fox-preview-canvas" @wheel="mousewheel">
                     <div
-                        v-if="currentSrc"
+                        v-if="currentImageSrc"
                         :style="{
-                            transform: transformStyle,
+                            transform: imageTransformStyle,
                             display: 'inline-block',
                         }"
                         @mousedown="handleMouseDown"
@@ -268,7 +267,7 @@ onUnmounted(() => {
                         <img
                             :key="active"
                             class="fox-preview-image"
-                            :src="currentSrc"
+                            :src="currentImageSrc"
                             alt="被拖拽的图片"
                             draggable="false" />
                     </div>
@@ -279,18 +278,17 @@ onUnmounted(() => {
                 </div>
                 <!-- 左右切换按钮 -->
                 <Switch
-                    v-if="uri && uri.length > 1"
+                    v-if="imageUrls && imageUrls.length > 1"
                     @prev="prev"
                     @next="next" />
-                <!-- 工具�?-->
+                <!-- 工具栏 -->
                 <Toolbar
                     v-if="showToolbar"
-                    :scale="getCurrScale"
-                    :index="getCurrIndex"
+                    :scale="currentScale"
+                    :index="currentIndexText"
                     :layout="props.layout"
                     @click="handleToolsClick" />
             </div>
         </transition>
     </teleport>
 </template>
-

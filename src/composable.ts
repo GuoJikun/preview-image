@@ -15,62 +15,62 @@ export const usePreviewImageState = (initialIndex = 0) => {
     const scale = ref(1);
     const x = ref(0);
     const y = ref(0);
-    const uri = ref<string[]>([]);
-    const dragging = ref(false);
+    const imageUrls = ref<string[]>([]);
+    const isDragging = ref(false);
 
-    let startX = 0;
-    let startY = 0;
-    let wheelDeltaAcc = 0;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let wheelDeltaAccumulator = 0;
 
     const resetTransformState = () => {
         angle.value = 0;
         scale.value = 1;
         x.value = 0;
         y.value = 0;
-        startX = 0;
-        startY = 0;
-        dragging.value = false;
-        wheelDeltaAcc = 0;
+        dragStartX = 0;
+        dragStartY = 0;
+        isDragging.value = false;
+        wheelDeltaAccumulator = 0;
     };
 
     const updatePosition = (clientX: number, clientY: number) => {
-        x.value += clientX - startX;
-        y.value += clientY - startY;
-        startX = clientX;
-        startY = clientY;
+        x.value += clientX - dragStartX;
+        y.value += clientY - dragStartY;
+        dragStartX = clientX;
+        dragStartY = clientY;
     };
 
     const mousemove = (e: MouseEvent) => {
-        if (!dragging.value) return;
+        if (!isDragging.value) return;
         updatePosition(e.clientX, e.clientY);
     };
 
     const touchmove = (e: TouchEvent) => {
         const touch = e.touches[0];
-        if (!dragging.value || !touch) return;
+        if (!isDragging.value || !touch) return;
         updatePosition(touch.clientX, touch.clientY);
     };
 
     const mouseup = () => {
-        dragging.value = false;
+        isDragging.value = false;
     };
 
     const touchend = () => {
-        dragging.value = false;
+        isDragging.value = false;
     };
 
     const mousedown = (e: MouseEvent) => {
-        dragging.value = true;
-        startX = e.clientX;
-        startY = e.clientY;
+        isDragging.value = true;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
     };
 
     const touchstart = (e: TouchEvent) => {
         const touch = e.touches[0];
         if (!touch) return;
-        dragging.value = true;
-        startX = touch.clientX;
-        startY = touch.clientY;
+        isDragging.value = true;
+        dragStartX = touch.clientX;
+        dragStartY = touch.clientY;
     };
 
     const zoomOut = () => {
@@ -91,15 +91,15 @@ export const usePreviewImageState = (initialIndex = 0) => {
         ev.preventDefault();
         const delta =
             ev.deltaMode === ev.DOM_DELTA_LINE ? ev.deltaY * 33 : ev.deltaY;
-        wheelDeltaAcc += delta;
-        if (Math.abs(wheelDeltaAcc) < WHEEL_THRESHOLD) return;
+        wheelDeltaAccumulator += delta;
+        if (Math.abs(wheelDeltaAccumulator) < WHEEL_THRESHOLD) return;
 
-        if (wheelDeltaAcc > 0) {
+        if (wheelDeltaAccumulator > 0) {
             zoomOut();
         } else {
             enlarge();
         }
-        wheelDeltaAcc = 0;
+        wheelDeltaAccumulator = 0;
     };
 
     const clockwiseRotation = () => {
@@ -110,17 +110,17 @@ export const usePreviewImageState = (initialIndex = 0) => {
         angle.value -= 90;
     };
 
-    const getCurrScale = computed(() => {
+    const currentScale = computed(() => {
         return Number.parseFloat(scale.value.toFixed(1));
     });
 
-    const getCurrIndex = computed(() => {
-        return `${active.value + 1}/${uri.value.length}`;
+    const currentIndexText = computed(() => {
+        return `${active.value + 1}/${imageUrls.value.length}`;
     });
 
-    const currentSrc = computed(() => uri.value[active.value]);
+    const currentImageSrc = computed(() => imageUrls.value[active.value]);
 
-    const transformStyle = computed(() => {
+    const imageTransformStyle = computed(() => {
         return `translate(${x.value}px, ${y.value}px) rotate(${angle.value}deg) scale(${scale.value})`;
     });
 
@@ -129,18 +129,18 @@ export const usePreviewImageState = (initialIndex = 0) => {
     };
 
     const prev = () => {
-        if (uri.value.length < 2) return;
+        if (imageUrls.value.length < 2) return;
         if (active.value > 0) {
             active.value--;
         } else {
-            active.value = uri.value.length - 1;
+            active.value = imageUrls.value.length - 1;
         }
         initConf();
     };
 
     const next = () => {
-        if (uri.value.length < 2) return;
-        if (active.value < uri.value.length - 1) {
+        if (imageUrls.value.length < 2) return;
+        if (active.value < imageUrls.value.length - 1) {
             active.value++;
         } else {
             active.value = 0;
@@ -154,12 +154,12 @@ export const usePreviewImageState = (initialIndex = 0) => {
         scale,
         x,
         y,
-        uri,
-        dragging,
-        getCurrScale,
-        getCurrIndex,
-        currentSrc,
-        transformStyle,
+        imageUrls,
+        isDragging,
+        currentScale,
+        currentIndexText,
+        currentImageSrc,
+        imageTransformStyle,
         resetTransformState,
         mousemove,
         touchmove,
