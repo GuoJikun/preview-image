@@ -60,6 +60,14 @@ const dragging = ref<boolean>(false);
 let startX = 0;
 let startY = 0;
 
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 2;
+const SCALE_STEP = 0.1;
+
+const clampScale = (value: number) => {
+    return Math.min(MAX_SCALE, Math.max(MIN_SCALE, value));
+};
+
 const resetTransformState = () => {
     angle.value = 0;
     scale.value = 1;
@@ -68,6 +76,7 @@ const resetTransformState = () => {
     startX = 0;
     startY = 0;
     dragging.value = false;
+    wheelDeltaAcc = 0;
 };
 
 const updatePosition = (clientX: number, clientY: number) => {
@@ -135,17 +144,15 @@ const touchstart = (e: TouchEvent) => {
  * 缩小
  */
 const zoomOut = () => {
-    if (scale.value > 0.5) {
-        scale.value -= 0.1;
-    }
+    const nextScale = clampScale(Number((scale.value - SCALE_STEP).toFixed(2)));
+    scale.value = nextScale;
 };
 /**
  * 放大
  */
 const enlarge = () => {
-    if (scale.value < 2) {
-        scale.value += 0.1;
-    }
+    const nextScale = clampScale(Number((scale.value + SCALE_STEP).toFixed(2)));
+    scale.value = nextScale;
 };
 
 // 累积滚轮增量，兼容鼠标滚轮与触控板惯性滚动
@@ -153,6 +160,7 @@ let wheelDeltaAcc = 0;
 const WHEEL_THRESHOLD = 100;
 
 const mousewheel = (ev: WheelEvent) => {
+    ev.preventDefault();
     const delta =
         ev.deltaMode === ev.DOM_DELTA_LINE ? ev.deltaY * 33 : ev.deltaY;
     wheelDeltaAcc += delta;
@@ -222,12 +230,15 @@ const onKeyup = (e: KeyboardEvent) => {
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
     switch (e.key) {
         case "Escape":
+            e.preventDefault();
             close();
             break;
         case "ArrowLeft":
+            e.preventDefault();
             prev();
             break;
         case "ArrowRight":
+            e.preventDefault();
             next();
             break;
     }
@@ -369,7 +380,7 @@ onUnmounted(() => {
                     'z-index': props.zIndex,
                 }"
                 tabindex="0">
-                <div class="fox-preview-canvas" @wheel.passive="mousewheel">
+                <div class="fox-preview-canvas" @wheel="mousewheel">
                     <div
                         v-if="currentSrc"
                         :style="{
