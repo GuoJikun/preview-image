@@ -47,7 +47,7 @@ Vue.use(foxPreviewImage);
 | initial-index      | 默认显示图片的下标        | `number`             | `0`                                                                             |
 | z-index            | 预览窗口的层级的 zIndex   | `number`             | `9000`                                                                          |
 | showToolbar        | 控制 toolbar 的显示和隐藏 | `boolean`            | `true`                                                                          |
-| append-to          | 控制弹窗的插入位置        | `HtmlElement/string` | -                                                                               |
+| append-to          | 控制弹窗的插入位置        | `HtmlElement/string` | `body`                                                                          |
 | teleport           | 启用 teleport 功能        | `boolean`            | `false`                                                                         |
 | layout             | 工具栏的布局              | `string`             | `zoomOut`,`zoomIn`,`scale`,`position`,<br>`rotateLeft`,`rotateRight`,`download` |
 
